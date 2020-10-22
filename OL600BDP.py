@@ -4,12 +4,13 @@ import re
 import os
 import sys
 import openpyxl
+import matplotlib.pyplot as plt
 
-HEADERS = ['HeatSink','AF NTC','PC NTC','Probe1 NTC',
+HEADERS = ['Time (sec.)','HeatSink','AF NTC','PC NTC','Probe1 NTC',
            'Probe2 NTC', 'High Pressure','Low Pressure','SW version (Release.Version.Revision)','Build date']
 
-path = "C:\\Users\\vseshadri\\Desktop\\"
-filename = "Chilli2_126V_Serial.txt"
+path = "C:\\Users\\vseshadri\\Desktop\\Chili testing_SW1.33\\"
+filename = "Chilli3_126V_Serial.txt"
 file = path + filename
 
 f = open(file)
@@ -41,7 +42,7 @@ data.remove(data[0])
 data.remove(data[len(data)-1])
 data.remove(data[len(data)-1])
 
-workbook = xlsxwriter.Workbook("Chilli2_126V_Serial.xlsx")
+workbook = xlsxwriter.Workbook("Chilli3_126V_Serial.xlsx")
 worksheet1 = workbook.add_worksheet('Data')
 ##worksheet2 = workbook.add_worksheet('RAW')
 
@@ -70,10 +71,10 @@ for row in range (0,len(data)):
         x = re.match(r'(\$WZ)(..)(..)(..)(\w+........)',cell[col])
         if x:
             convert_cell = x.group(2)+'.'+ x.group(3)+'.'+x.group(4)
-            worksheet1.write(row+1, col+1, x.group(5),cell_format)
+            worksheet1.write(row+1, col+2, x.group(5),cell_format)
         else:
             pass
-        
-        worksheet1.write(row+1, col, convert_cell,cell_format)
+        worksheet1.write(row+1, 0, row+1,cell_format)
+        worksheet1.write(row+1, col+1, convert_cell,cell_format)
  
 workbook.close()
