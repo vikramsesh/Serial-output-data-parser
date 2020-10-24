@@ -1,19 +1,19 @@
 import xlsxwriter
-import pandas as pd
 import re
 import os
 import sys
-import openpyxl
-import matplotlib.pyplot as plt
 
 HEADERS = ['Time (sec.)','HeatSink','AF NTC','PC NTC','Probe1 NTC',
-           'Probe2 NTC', 'High Pressure','Low Pressure','SW version (Release.Version.Revision)','Build date']
+           'Probe2 NTC', 'High Pressure','Low Pressure','V','SW version (Release.Version.Revision)','Build date']
 
-path = "C:\\Users\\vseshadri\\Desktop\\Chili testing_SW1.33\\"
-filename = "Chilli3_126V_Serial.txt"
-file = path + filename
+filepath = "C:\\Users\\vseshadri\\Desktop\\Pasta_126V_Serial.txt"
 
-f = open(file)
+(head, tail) = os.path.split( filepath )
+
+workbook = xlsxwriter.Workbook(os.path.splitext(filepath)[0]+'.xlsx')
+worksheet1 = workbook.add_worksheet('Data')
+
+f = open(filepath, encoding="utf8")
 data = f.read()
 
 pattern = r'(\?KN1\n)'
@@ -34,6 +34,7 @@ try:
     data = re.sub(pattern5, ',', data)
     data = re.sub(pattern6, ',', data)
     data = re.sub(pattern7, ',', data)
+    
 except:
     pass
 
@@ -41,9 +42,9 @@ data = data.split('\n')
 data.remove(data[0])
 data.remove(data[len(data)-1])
 data.remove(data[len(data)-1])
+##print("Step2")
 
-workbook = xlsxwriter.Workbook("Chilli3_126V_Serial.xlsx")
-worksheet1 = workbook.add_worksheet('Data')
+
 ##worksheet2 = workbook.add_worksheet('RAW')
 
 header_format = workbook.add_format()
@@ -58,23 +59,50 @@ cell_format.set_align('center')
 
 for index, i in enumerate(HEADERS):
     worksheet1.write(0, index, i,header_format)
+##    print("Step3")
                  
 for row in range (0,len(data)):
     
     cell = data[row].split(',')
+##    print("Step4")
     for col in range (0,len(cell)):
-        worksheet1.write(row+1, col+len(HEADERS)+1, cell[col],cell_format)
-        if col<5:
-            convert_cell = int(cell[col][5:],16)/10
-        elif col>=5 and col<7:
-            convert_cell = int(cell[col][4:])
-        x = re.match(r'(\$WZ)(..)(..)(..)(\w+........)',cell[col])
-        if x:
-            convert_cell = x.group(2)+'.'+ x.group(3)+'.'+x.group(4)
-            worksheet1.write(row+1, col+2, x.group(5),cell_format)
-        else:
-            pass
-        worksheet1.write(row+1, 0, row+1,cell_format)
-        worksheet1.write(row+1, col+1, convert_cell,cell_format)
+        try:
+            worksheet1.write(row+1, col+len(HEADERS)+1, cell[col],cell_format)
+            if col<5:
+                convert_cell = int(cell[col][5:],16)/10
+    ##            print("Step5")
+            elif col>=5 and col<7:
+                convert_cell = int(cell[col][4:])
+            elif col == 7:
+                convert_cell = ''
+            #match SW version BDP    
+            x = re.match(r'(\$WZ)(..)(..)(..)(\w+........)',cell[col])
+    ##        print("Step6")
+            if x:
+                SW_version = x.group(2)+'.'+ x.group(3)+'.'+x.group(4)
+                worksheet1.write(row+1, col+3, x.group(5),cell_format)
+                worksheet1.write(row+1, col+2, SW_version,cell_format)
+    ##            print("Step7")
+            else:
+                pass
+            
+            #time
+            worksheet1.write(row+1, 0, row+1,cell_format)
+            #Columns
+            worksheet1.write(row+1, col+1, convert_cell,cell_format)
+    ##        print("Step8")
+        except:
+            continue
  
-workbook.close()
+while True:
+    try:
+        workbook.close()
+    except xlsxwriter.exceptions.FileCreateError as e:
+        # For Python 2 use raw_input() instead of input().
+        decision = input("Exception caught in workbook.close(): %s\n"
+                             "Please close the file if it is open in Excel.\n"
+                             "Try to write file again? [Y/n]: " % e)
+        if decision != 'n':
+            continue
+
+    break
