@@ -11,7 +11,11 @@ filepath = "C:\\Users\\vseshadri\\Desktop\\Pasta_126V_Serial.txt"
 (head, tail) = os.path.split( filepath )
 
 workbook = xlsxwriter.Workbook(os.path.splitext(filepath)[0]+'.xlsx')
-worksheet1 = workbook.add_worksheet('Data')
+worksheet = workbook.add_worksheet('Data')
+worksheet.freeze_panes(1, 0)
+
+# Create a chart object.
+chart = workbook.add_chart({'type': 'line'})
 
 f = open(filepath, encoding="utf8")
 data = f.read()
@@ -58,7 +62,7 @@ cell_format.set_align('center')
 ##cell_format.set_text_wrap()
 
 for index, i in enumerate(HEADERS):
-    worksheet1.write(0, index, i,header_format)
+    .write(0, index, i,header_format)
 ##    print("Step3")
                  
 for row in range (0,len(data)):
@@ -67,7 +71,7 @@ for row in range (0,len(data)):
 ##    print("Step4")
     for col in range (0,len(cell)):
         try:
-            worksheet1.write(row+1, col+len(HEADERS)+1, cell[col],cell_format)
+            worksheet.write(row+1, col+len(HEADERS)+1, cell[col],cell_format)
             if col<5:
                 convert_cell = int(cell[col][5:],16)/10
     ##            print("Step5")
@@ -80,22 +84,37 @@ for row in range (0,len(data)):
     ##        print("Step6")
             if x:
                 SW_version = x.group(2)+'.'+ x.group(3)+'.'+x.group(4)
-                worksheet1.write(row+1, col+3, x.group(5),cell_format)
-                worksheet1.write(row+1, col+2, SW_version,cell_format)
+                worksheet.write(row+1, col+3, x.group(5),cell_format)
+                worksheet.write(row+1, col+2, SW_version,cell_format)
     ##            print("Step7")
             else:
                 pass
             
             #time
-            worksheet1.write(row+1, 0, row+1,cell_format)
+            worksheet.write(row+1, 0, row+1,cell_format)
             #Columns
-            worksheet1.write(row+1, col+1, convert_cell,cell_format)
+            worksheet.write(row+1, col+1, convert_cell,cell_format)
     ##        print("Step8")
         except:
             continue
- 
+
+
+#Chart
+chart.add_series({
+    'name': ['Data',0,1],
+    'values':     '=Data!$B2:$B3159',
+})
+
+# Configure the chart axes.
+chart.set_y_axis({'major_gridlines': {'visible': True}})
+chart.set_x_axis({'name': 'Time (sec.)'})
+
+# Turn off chart legend. It is on by default in Excel.
+chart.set_legend({'position': 'none'})
+
 while True:
     try:
+        worksheet.insert_chart('L2', chart)
         workbook.close()
     except xlsxwriter.exceptions.FileCreateError as e:
         # For Python 2 use raw_input() instead of input().
