@@ -3,22 +3,21 @@ import sys
 import xlsxwriter
 import re
 
-filename = r"C:\Users\vseshadri\Downloads\CFP Serial data\CFP300 #6\CFP300 6#_32th-51th cycle _very hot water_50oz.CSV"
+filepath = "C:\\Users\\vseshadri\\Desktop\\Pasta_126V_Serial.txt"
+
+(head, tail) = os.path.split( filepath )
+
+workbook = xlsxwriter.Workbook(os.path.splitext(filepath)[0]+'.xlsx')
+worksheet = workbook.add_worksheet('Data')
+
+worksheet.freeze_panes(1, 0)
+
 f = open(filename,"r")
 data = f.read()
 
-# Create an new Excel file and add a worksheet.
-workbook = xlsxwriter.Workbook(r'C:\Users\vseshadri\Downloads\CFP Serial data\CFP300 #6\CFP300 6#_32th-51th cycle _very hot water_50oz.xlsx')
-worksheet = workbook.add_worksheet('Data')
-worksheet.freeze_panes(1, 0)
-
-##entries = [i for i in data.split('\n')]
 entries = data.split('\n')
 entries.remove(entries[0])
 
-##for i in range(0, len(entries)-1):
-##    print(entries[i])
-    
 HEADERS = ['Time','Outlet Temp', 'Boiler Temp', 'Warm Plate Temp', 'Max Temp', 'Calibrated Offset Temp', 'Pump PWM', 'Boiler On/Off', 'PTC On/Off',
            'Flow rate', 'Current Block Volume', 'Current Total Volume', 'Clean Count', 'Recipe Size', 'Recipe Brew',
            'Recipe Block', 'Recipe Total Volume', 'Recipe Time']
