@@ -4,10 +4,10 @@ import xlsxwriter
 import re
 import glob
 
-pathname = r"C:\Users\vseshadri\Downloads\1023\CFP\CFP200 7#-8#"
+pathname = r"C:\Users\vseshadri\Downloads\Test"
 os.chdir(pathname)
 
-Myfiles = [i for i in glob.glob('*.CSV')]
+Myfiles = [i for i in glob.glob('*')]
 
 HEADERS = ['Time','Outlet Temp', 'Boiler Temp', 'Warm Plate Temp', 'Max Temp', 'Calibrated Offset Temp', 'Pump PWM', 'Boiler On/Off', 'PTC On/Off',
            'Flow rate', 'Current Block Volume', 'Current Total Volume', 'Clean Count', 'Recipe Size', 'Recipe Brew',
@@ -15,16 +15,50 @@ HEADERS = ['Time','Outlet Temp', 'Boiler Temp', 'Warm Plate Temp', 'Max Temp', '
      
 SUB_HEADERS = ['sec.','degC','degC','degC','degC','degC']
 
+SUMMARY_HEADERS = ['Max. Outlet Temp', 'Max. Boiler Temp', 'Max. Warm Plate Temp',
+                   'Max. Flowrate']
+
+SUMMARY_SUB_HEADERS = ['degC','degC','degC','ml/sec.']
+
+def closeworkbook():
+    while True:
+        try:
+            print("Complete")
+            workbook.close()
+            
+        except xlsxwriter.exceptions.FileCreateError as e:
+            # For Python 3 use input() instead of raw_input().
+            decision = raw_input("Exception caught in workbook.close(): %s\n"
+                                 "Please close the file if it is open in Excel.\n"
+                                 "Try to write file again? [Y/n]: " % e)
+            if decision != 'n':
+
+                continue
+        except:
+            continue
+        break
+
 for i in Myfiles:
-    workbook = xlsxwriter.Workbook(os.path.splitext(i)[0]+'.xlsx')
+    workbook = xlsxwriter.Workbook(os.path.splitext(i)[0]+'.xlsx',{'constant_memory': True})
+    print(i)
+    #RAW data
     worksheet = workbook.add_worksheet('Data')
     worksheet.freeze_panes(1, 0)
+    worksheet.set_column('A:R', 8.8)
 
-    f = open(i,"r")
-    data = f.read()
+    #Summary data
+##    summary_worksheet = workbook.add_worksheet('Summary')
+##    summary_worksheet.freeze_panes(1, 0)
+    
+    f = open(i,encoding= 'utf-8',errors='ignore')
+    try:
+        data = f.read()
+    except:
+        continue
 
     entries = data.split('\n')
     entries.remove(entries[0])
+    entries.remove(entries[1])
 
     # Add formatting to highlight cells.
     header_format  = workbook.add_format()
@@ -52,6 +86,11 @@ for i in Myfiles:
     for index, i in enumerate(SUB_HEADERS):
         worksheet.write(row_index + 1, index, i, subheader_format)
 
+##    for index, i in enumerate(SUMMARY_HEADERS):
+##        summary_worksheet.write(row_index, index, i, header_format)
+##    for index, i in enumerate(SUMMARY_SUB_HEADERS):
+##        summary_worksheet.write(row_index + 1, index, i, subheader_format)
+        
     row_index = 1
 
     try:
@@ -83,21 +122,10 @@ for i in Myfiles:
                     pass
             print(data)
             
+        closeworkbook()
+    
     except KeyboardInterrupt as e:
-        workbook.close()
+        closeworkbook()
         
     except:
-        pass
-        
-    while True:
-        try:
-            workbook.close()
-        except xlsxwriter.exceptions.FileCreateError as e:
-            # For Python 3 use input() instead of raw_input().
-            decision = raw_input("Exception caught in workbook.close(): %s\n"
-                                 "Please close the file if it is open in Excel.\n"
-                                 "Try to write file again? [Y/n]: " % e)
-            if decision != 'n':
-                continue
-
-        break
+        continue
