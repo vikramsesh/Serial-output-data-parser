@@ -2,11 +2,12 @@ import xlsxwriter
 import re
 import os
 import sys
+import glob
 
 HEADERS = ['Time (sec.)','HeatSink','AF NTC','PC NTC','Probe1 NTC',
            'Probe2 NTC', 'High Pressure','Low Pressure','V','SW version (Release.Version.Revision)','Build date']
 
-filepath = "C:\\Users\\vseshadri\\Desktop\\Pasta_126V_Serial.txt"
+filepath = r"C:\Users\vseshadri\Downloads\One_Cup_Boil_PRV2_126V.txt"
 
 (head, tail) = os.path.split( filepath )
 
@@ -17,7 +18,7 @@ worksheet.freeze_panes(1, 0)
 # Create a chart object.
 chart = workbook.add_chart({'type': 'line'})
 
-f = open(filepath, encoding="utf8")
+f = open(filepath, encoding="utf8", errors="ignore")
 data = f.read()
 
 pattern = r'(\?KN1\n)'
@@ -62,7 +63,7 @@ cell_format.set_align('center')
 ##cell_format.set_text_wrap()
 
 for index, i in enumerate(HEADERS):
-    .write(0, index, i,header_format)
+    worksheet.write(0, index, i,header_format)
 ##    print("Step3")
                  
 for row in range (0,len(data)):
@@ -116,6 +117,7 @@ while True:
     try:
         worksheet.insert_chart('L2', chart)
         workbook.close()
+        print("Parsing complete")
     except xlsxwriter.exceptions.FileCreateError as e:
         # For Python 2 use raw_input() instead of input().
         decision = input("Exception caught in workbook.close(): %s\n"
