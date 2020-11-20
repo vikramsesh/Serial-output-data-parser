@@ -118,8 +118,21 @@
       </property>
      </widget>
     </item>
+
     <item row="3" column="3" rowspan="3" colspan="3">
      <widget class="QScrollArea" name="scrollArea">
+      <property name="minimumSize">
+       <size>
+        <width>218</width>
+        <height>459</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>218</width>
+        <height>459</height>
+       </size>
+      </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOn</enum>
       </property>
@@ -137,192 +150,619 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>218</width>
-         <height>459</height>
+         <width>216</width>
+         <height>569</height>
         </rect>
        </property>
-       <widget class="QCheckBox" name="CB_SWversion">
-        <property name="enabled">
-         <bool>false</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>250</y>
-          <width>196</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Software version (WZ)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="CB_1">
-        <property name="enabled">
-         <bool>true</bool>
-        </property>
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>10</y>
-          <width>138</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Heatsink (KN1)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="CB_6">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>184</y>
-          <width>234</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Low Pressure Switch (SW1)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="CB_2">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>44</y>
-          <width>138</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>AF NTC (KN2)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="CB_7">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>217</y>
-          <width>237</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>High Pressure Switch (SW2)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="CB_4">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>110</y>
-          <width>295</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Probe1 NTC (KN4)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="CB_5">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>150</y>
-          <width>162</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>Probe2 NTC (KN5)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
-       <widget class="QCheckBox" name="CB_3">
-        <property name="geometry">
-         <rect>
-          <x>10</x>
-          <y>77</y>
-          <width>295</width>
-          <height>27</height>
-         </rect>
-        </property>
-        <property name="font">
-         <font>
-          <family>Calibri</family>
-          <pointsize>14</pointsize>
-         </font>
-        </property>
-        <property name="text">
-         <string>PC NTC (KN3)</string>
-        </property>
-        <property name="checked">
-         <bool>true</bool>
-        </property>
-       </widget>
+
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QCheckBox" name="CB_SWversion">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>250</y>
+            <width>196</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Software version (WZ)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item>
+         <widget class="QCheckBox" name="CB_1">
+          <property name="enabled">
+           <bool>true</bool>
+          </property>
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>10</y>
+            <width>138</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Heatsink (KN1)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item> 
+
+        <item>
+         <widget class="QCheckBox" name="CB_6">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>184</y>
+            <width>234</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Low Pressure Switch (SW1)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item> 
+
+        <item>
+         <widget class="QCheckBox" name="CB_2">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>44</y>
+            <width>138</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>AF NTC (KN2)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item> 
+
+        <item>
+         <widget class="QCheckBox" name="CB_7">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>217</y>
+            <width>237</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>High Pressure Switch (SW2)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item> 
+
+        <item>
+         <widget class="QCheckBox" name="CB_4">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>110</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Probe1 NTC (KN4)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_5">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>150</y>
+            <width>162</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Probe2 NTC (KN5)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>PC NTC (KN3)</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 1</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 2</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 3</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 4</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 5</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 6</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 7</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 8</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 9</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 10</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 11</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 12</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 13</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 14</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Placeholder 15</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+        <item> 
+         <widget class="QCheckBox" name="CB_3">
+          <property name="geometry">
+           <rect>
+            <x>10</x>
+            <y>77</y>
+            <width>295</width>
+            <height>27</height>
+           </rect>
+          </property>
+          <property name="font">
+           <font>
+            <family>Calibri</family>
+            <pointsize>14</pointsize>
+           </font>
+          </property>
+          <property name="text">
+           <string>Horizontal Scroll Bar Placeholder</string>
+          </property>
+          <property name="checked">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+
+       </layout>  
       </widget>
      </widget>
     </item>
