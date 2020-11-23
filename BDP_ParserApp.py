@@ -39,15 +39,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.addAction(quit_action)
         self.ui.PB_Quit.clicked.connect(QtWidgets.qApp.closeAllWindows)
         
-    
         self.ui.PB_Clear.clicked.connect(self.clearText)
-##        self.PB_Start.clicked.connect(self.printText())
+##      self.PB_Start.clicked.connect(self.printText())
         self.ui.PB_File.clicked.connect(self.addFiles)
 
     def clearText(self):
         self.ui.Text_drop.clear()
         self.ui.Text_drop.addItem(QtWidgets.QListWidgetItem())
         self.ui.Text_drop.item(0).setText("Drop Files Here:")
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.ui.Text_drop.item(0).setFont(font)
+
         count = 0
 
     def addFiles(self):
