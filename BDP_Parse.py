@@ -47,6 +47,7 @@ class ListBoxWidget(QListWidget):
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(709, 694)
         MainWindow.setAcceptDrops(True)
@@ -309,15 +310,20 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.PB_Clear, 7, 4, 1, 1)
         spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem, 2, 1, 1, 1)
+        self.drop_down = QtWidgets.QListView(self.centralwidget)
+        self.drop_down.setStyleSheet("background-color: rgba(75, 178, 249, 64);\n"
+"color: rgb(255, 255, 255);\n") 
         self.CB_SKUSelect = QtWidgets.QComboBox(self.centralwidget)
+        self.CB_SKUSelect.setView(self.drop_down)
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(14)
         self.CB_SKUSelect.setFont(font)
+        self.drop_down.setFont(font)
         self.CB_SKUSelect.setStyleSheet("background-color: rgba(75, 178, 249, 64);\n"
 "border-style:outset;\n"
 "color: rgb(255, 255, 255);\n"
-"padding:8px;")
+"padding:8px;\n") 
         self.CB_SKUSelect.setObjectName("CB_SKUSelect")
         self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.addItem("")
