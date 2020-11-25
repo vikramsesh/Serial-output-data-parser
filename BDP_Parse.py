@@ -13,8 +13,10 @@ from PyQt5.QtWidgets import QListWidget, QListWidgetItem
 from PyQt5.QtCore import Qt, QUrl
 
 class ListBoxWidget(QListWidget):
+
     def __init__(self, parent=None):
         super().__init__(parent)
+        self.links = set()
         self.setAcceptDrops(True)
         self.setGeometry(QtCore.QRect(200, 200, 200, 200))
  
@@ -35,12 +37,15 @@ class ListBoxWidget(QListWidget):
         if event.mimeData().hasUrls():
             event.setDropAction(Qt.CopyAction)
             event.accept()
- 
-            links = []
             for url in event.mimeData().urls():
-                if url.isLocalFile():
-                    links.append(str(url.toLocalFile()))
-            self.addItems(links)
+                item = QtWidgets.QListWidgetItem()
+                font = QtGui.QFont()
+                font.setPointSize(10)
+                item.setFont(font)
+                if (url.isLocalFile()) and (str(url.toLocalFile()) not in self.links):
+                    self.links.add(str(url.toLocalFile()))
+                    item.setText(str(url.toLocalFile()))
+                    self.addItem(item)
         else:
             event.ignore()
 
@@ -343,15 +348,20 @@ class Ui_MainWindow(object):
         self.Text_drop.verticalScrollBar().setStyleSheet("background-color: rgba(255, 255, 255, 38);\n")
         item = QtWidgets.QListWidgetItem()
         font = QtGui.QFont()
-        font.setPointSize(16)
+        font.setPointSize(14)
         item.setFont(font)
         self.Text_drop.addItem(item)
         self.gridLayout.addWidget(self.Text_drop, 3, 1, 1, 1)
-        self.Text_status = QtWidgets.QPlainTextEdit(self.centralwidget)
+        self.Text_status = ListBoxWidget(self.centralwidget)
         self.Text_status.setStyleSheet("background-color: rgba(75, 178, 249, 64);\n"
 "border-style:outset;\n"
 "color: rgb(255, 255, 255);")
         self.Text_status.setObjectName("Text_status")
+        item = QtWidgets.QListWidgetItem()
+        font = QtGui.QFont()
+        font.setPointSize(14)
+        item.setFont(font)
+        self.Text_status.addItem(item)
         self.gridLayout.addWidget(self.Text_status, 5, 1, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
         self.gridLayout.addItem(spacerItem3, 6, 1, 1, 5)
@@ -420,4 +430,9 @@ class Ui_MainWindow(object):
         item = self.Text_drop.item(0)
         item.setText(_translate("MainWindow", "Drop Files Here:"))
         self.Text_drop.setSortingEnabled(__sortingEnabled)
+
+        self.Text_status.setSortingEnabled(False)
+        item = self.Text_status.item(0)
+        item.setText(_translate("MainWindow", "Status:"))
+        self.Text_status.setSortingEnabled(__sortingEnabled)
         self.PB_Start.setText(_translate("MainWindow", "Parse"))
