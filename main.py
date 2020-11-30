@@ -95,7 +95,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for file in self.ui.Text_drop.links:
             item = QtWidgets.QListWidgetItem()
             font = QtGui.QFont()
-            font.setPointSize(12)
+            font.setPointSize(10)
             item.setFont(font)
             if file not in unformatted_files:
                 item.setText(str(file.split('/')[-1]) + ' - Complete')
@@ -110,7 +110,7 @@ class MainWindow(QtWidgets.QMainWindow):
         selected_parser = self.ui.CB_SKUSelect.currentText()
         if self.ui.Text_drop.count() > 1:
             self.ui.PB_Parse.setEnabled(False)
-            self.ui.PB_Parse.setStyleSheet("background-color: rgba(55,0,179,191);"
+            self.ui.PB_Parse.setStyleSheet("background-color: rgba(55,0,179,128);"
                                     "border-style:outset;"
                                     "color: #FFFFFF;"
                                     "border-radius:5px;"

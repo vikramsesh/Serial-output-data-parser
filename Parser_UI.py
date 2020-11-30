@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(900, 900)
+        MainWindow.resize(700,700)
         MainWindow.setAcceptDrops(True)
         MainWindow.setStyleSheet("background-color: #1E1E1E;")
 
@@ -64,8 +64,8 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
         self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
-        self.scrollArea.setMinimumSize(QtCore.QSize(350, 700))
-        self.scrollArea.setMaximumSize(QtCore.QSize(350, 700))
+        self.scrollArea.setMinimumSize(QtCore.QSize(200, 450))
+        
         self.scrollArea.setStyleSheet(
             "border-radius:5px;"
             "border-width: 1px;"
