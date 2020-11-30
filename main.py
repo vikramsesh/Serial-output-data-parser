@@ -65,7 +65,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #                                "color: rgb(255, 255, 255);\n"
         #                                "border-radius:5px;\n"
         #                                "padding:10px;")
-        self.ui.Text_drop.links = []
+        self.ui.Text_drop.links = set()
         self.ui.Text_drop.clear()
         self.ui.Text_drop.addItem(QtWidgets.QListWidgetItem())
         self.ui.Text_drop.item(0).setText("Drop Files Here:")
