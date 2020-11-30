@@ -13,6 +13,7 @@ from easygui import fileopenbox
 # GUI
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import Qt, QObject, pyqtSignal
+from PyQt5.QtWidgets import QMessageBox
 
 # FILES
 import Parser_UI
@@ -105,6 +106,12 @@ class MainWindow(QtWidgets.QMainWindow):
                 item.setText(str(file.split('/')[-1]) + ' - Error')
                 item.setForeground(Qt.red)
                 self.ui.Text_status.addItem(item)
+    
+    def noFilesAdded(self):
+        error = QMessageBox()
+        error.setText("Error! No files available to parse!")
+        error.setIcon(QMessageBox.Critical)
+        error.exec()
 
     def parse(self):
         selected_parser = self.ui.CB_SKUSelect.currentText()
@@ -115,6 +122,9 @@ class MainWindow(QtWidgets.QMainWindow):
                                     "color: #FFFFFF;"
                                     "border-radius:5px;"
                                     "padding:10px;")
+        else:
+            self.noFilesAdded()
+
 
         if selected_parser == 'OLxxx':
             pass
