@@ -293,6 +293,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addItem(spacerItem2, 3, 6, 3, 1)
         self.Text_drop = ListBoxWidget(self.centralwidget)
         self.Text_drop.setStyleSheet("selection-background-color: #3700B3;"
+                                     "background-color: #1E1E1E;"
                                      "border-style:outset;"
                                      "border-radius:5px;"
                                      "border-width: 1px;"
@@ -323,8 +324,6 @@ class Ui_MainWindow(object):
                                                           "}"
                                                           )
         item = QtWidgets.QListWidgetItem()
-        font.setPointSize(12)
-        item.setFont(font)
         self.Text_drop.addItem(item)
         self.gridLayout.addWidget(self.Text_drop, 3, 1, 1, 1)
         self.Text_status = ListBoxWidget(self.centralwidget)
@@ -337,7 +336,6 @@ class Ui_MainWindow(object):
                                        "padding:8px;")
         self.Text_status.setObjectName("Text_status")
         item = QtWidgets.QListWidgetItem()
-        item.setFont(font)
         self.Text_status.addItem(item)
         self.gridLayout.addWidget(self.Text_status, 5, 1, 1, 1)
         spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
@@ -406,11 +404,13 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(12)
         item = self.Text_drop.item(0)
+        item.setFont(font)
         item.setText(_translate("MainWindow", "Drop Files Here:"))
         self.Text_drop.setSortingEnabled(__sortingEnabled)
 
         self.Text_status.setSortingEnabled(False)
         item = self.Text_status.item(0)
+        item.setFont(font)
         item.setText(_translate("MainWindow", "Status:"))
         self.Text_status.setSortingEnabled(__sortingEnabled)
         self.PB_Parse.setText(_translate("MainWindow", "Parse"))

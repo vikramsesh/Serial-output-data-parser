@@ -65,6 +65,7 @@ class MainWindow(QtWidgets.QMainWindow):
         #                                "color: rgb(255, 255, 255);\n"
         #                                "border-radius:5px;\n"
         #                                "padding:10px;")
+
         self.ui.Text_drop.links = set()
         self.ui.Text_drop.clear()
         self.ui.Text_drop.addItem(QtWidgets.QListWidgetItem())
@@ -77,6 +78,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Text_status.addItem(QtWidgets.QListWidgetItem())
         self.ui.Text_status.item(0).setText("Status:")
         self.ui.Text_status.item(0).setFont(font)
+        self.ui.PB_Parse.setEnabled(True)
+        self.ui.PB_Parse.setStyleSheet("background-color: #3700B3;"
+                                    "border-style:outset;"
+                                    "color: #FFFFFF;"
+                                    "border-radius:5px;"
+                                    "padding:10px;")
 
     def addFiles(self):
         files = fileopenbox(multiple=True)
@@ -103,11 +110,11 @@ class MainWindow(QtWidgets.QMainWindow):
         selected_parser = self.ui.CB_SKUSelect.currentText()
         if self.ui.Text_drop.count() > 1:
             self.ui.PB_Parse.setEnabled(False)
-            self.ui.PB_Parse.setStyleSheet("background-color: rgba(75, 178, 249, 32);\n"
-                                           "border-style:outset;\n"
-                                           "color: rgb(255, 255, 255);\n"
-                                           "border-radius:5px;\n"
-                                           "padding:10px;")
+            self.ui.PB_Parse.setStyleSheet("background-color: rgba(55,0,179,191);"
+                                    "border-style:outset;"
+                                    "color: #FFFFFF;"
+                                    "border-radius:5px;"
+                                    "padding:10px;")
 
         if selected_parser == 'OLxxx':
             pass
