@@ -18,7 +18,6 @@ from PyQt5.QtCore import Qt, QObject, pyqtSignal
 import Parser_UI
 import CFP_P2_parse
 
-count = 0
 displayname = ""
 
 
@@ -60,12 +59,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.PB_Parse.clicked.connect(self.parse)
 
     def clearText(self):
-        self.ui.PB_Parse.setEnabled(True)
-        self.ui.PB_Parse.setStyleSheet("background-color: rgba(75, 178, 249, 64);\n"
-                                       "border-style:outset;\n"
-                                       "color: rgb(255, 255, 255);\n"
-                                       "border-radius:5px;\n"
-                                       "padding:10px;")
+        # self.ui.PB_Parse.setEnabled(True)
+        # self.ui.PB_Parse.setStyleSheet("background-color: rgba(75, 178, 249, 64);\n"
+        #                                "border-style:outset;\n"
+        #                                "color: rgb(255, 255, 255);\n"
+        #                                "border-radius:5px;\n"
+        #                                "padding:10px;")
         self.ui.Text_drop.links = []
         self.ui.Text_drop.clear()
         self.ui.Text_drop.addItem(QtWidgets.QListWidgetItem())
@@ -89,7 +88,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for file in self.ui.Text_drop.links:
             item = QtWidgets.QListWidgetItem()
             font = QtGui.QFont()
-            font.setPointSize(10)
+            font.setPointSize(12)
             item.setFont(font)
             if file not in unformatted_files:
                 item.setText(str(file.split('/')[-1]) + ' - Complete')
