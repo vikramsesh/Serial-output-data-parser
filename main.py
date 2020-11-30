@@ -13,6 +13,7 @@ from easygui import fileopenbox
 # GUI
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import Qt, QObject, pyqtSignal
+from PyQt5.QtWidgets import QMessageBox
 
 # FILES
 import Parser_UI
@@ -65,7 +66,8 @@ class MainWindow(QtWidgets.QMainWindow):
         #                                "color: rgb(255, 255, 255);\n"
         #                                "border-radius:5px;\n"
         #                                "padding:10px;")
-        self.ui.Text_drop.links = []
+
+        self.ui.Text_drop.links = set()
         self.ui.Text_drop.clear()
         self.ui.Text_drop.addItem(QtWidgets.QListWidgetItem())
         self.ui.Text_drop.item(0).setText("Drop Files Here:")
@@ -77,6 +79,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Text_status.addItem(QtWidgets.QListWidgetItem())
         self.ui.Text_status.item(0).setText("Status:")
         self.ui.Text_status.item(0).setFont(font)
+        self.ui.PB_Parse.setEnabled(True)
+        self.ui.PB_Parse.setStyleSheet("background-color: #3700B3;"
+                                    "border-style:outset;"
+                                    "color: #FFFFFF;"
+                                    "border-radius:5px;"
+                                    "padding:10px;")
 
     def addFiles(self):
         files = fileopenbox(multiple=True)
@@ -88,7 +96,7 @@ class MainWindow(QtWidgets.QMainWindow):
         for file in self.ui.Text_drop.links:
             item = QtWidgets.QListWidgetItem()
             font = QtGui.QFont()
-            font.setPointSize(12)
+            font.setPointSize(10)
             item.setFont(font)
             if file not in unformatted_files:
                 item.setText(str(file.split('/')[-1]) + ' - Complete')
@@ -98,16 +106,25 @@ class MainWindow(QtWidgets.QMainWindow):
                 item.setText(str(file.split('/')[-1]) + ' - Error')
                 item.setForeground(Qt.red)
                 self.ui.Text_status.addItem(item)
+    
+    def noFilesAdded(self):
+        error = QMessageBox()
+        error.setText("Error! No files available to parse!")
+        error.setIcon(QMessageBox.Critical)
+        error.exec()
 
     def parse(self):
         selected_parser = self.ui.CB_SKUSelect.currentText()
         if self.ui.Text_drop.count() > 1:
             self.ui.PB_Parse.setEnabled(False)
-            self.ui.PB_Parse.setStyleSheet("background-color: rgba(75, 178, 249, 32);\n"
-                                           "border-style:outset;\n"
-                                           "color: rgb(255, 255, 255);\n"
-                                           "border-radius:5px;\n"
-                                           "padding:10px;")
+            self.ui.PB_Parse.setStyleSheet("background-color: rgba(55,0,179,128);"
+                                    "border-style:outset;"
+                                    "color: #FFFFFF;"
+                                    "border-radius:5px;"
+                                    "padding:10px;")
+        else:
+            self.noFilesAdded()
+
 
         if selected_parser == 'OLxxx':
             pass
