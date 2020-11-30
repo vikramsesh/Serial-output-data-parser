@@ -9,12 +9,17 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QListWidget, QListWidgetItem
+from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QComboBox
 from PyQt5.QtCore import Qt, QUrl
 
+class ComboBox(QComboBox):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.previous = ""
+        self.current = "OLxxx"
+    
 
 class ListBoxWidget(QListWidget):
-
     def __init__(self, parent=None):
         super().__init__(parent)
         self.links = set()
@@ -76,26 +81,27 @@ class Ui_MainWindow(object):
         self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
+        
         self.scrollArea.horizontalScrollBar().setStyleSheet("QScrollBar"
                                                           "{"
-                                                          "height:15px;"
-                                                          "border-radius:10px;"
+                                                          "height:10px;"
+                                                          "background: white;"
                                                           "}"
                                                           "QScrollBar::handle"
                                                           "{"
                                                           "background : #C38FFF;"
-                                                          "border-radius:10px;"
+                                                          "border-radius:3px;"
                                                           "}"
                                                           )
         self.scrollArea.verticalScrollBar().setStyleSheet("QScrollBar"
                                                           "{"
-                                                          "width:15px;"
-                                                          "border-radius:10px;"
+                                                          "width:10px;"
+                                                          "background: white;"
                                                           "}"
                                                           "QScrollBar::handle"
                                                           "{"
                                                           "background : #C38FFF;"
-                                                          "border-radius:10px;"
+                                                          "border-radius:3px;"
                                                           "}"
                                                           )
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
@@ -108,12 +114,13 @@ class Ui_MainWindow(object):
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
         self.verticalLayout_3.setObjectName("verticalLayout_3")
-
-        self.CB_SWversion = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_SWversion.setEnabled(False)
         font = QtGui.QFont()
         font.setFamily("Calibri")
         font.setPointSize(12)
+        self.parameter_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
+        #self.verticalLayout_3.addWidget(self.parameter_label)
+        self.CB_SWversion = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+        self.CB_SWversion.setEnabled(False)
         self.CB_SWversion.setFont(font)
         self.CB_SWversion.setChecked(True)
         self.CB_SWversion.setObjectName("CB_SWversion")
@@ -155,86 +162,7 @@ class Ui_MainWindow(object):
         self.CB_3.setChecked(True)
         self.CB_3.setObjectName("CB_3")
         self.verticalLayout_3.addWidget(self.CB_3)
-        self.CB_31 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_31.setFont(font)
-        self.CB_31.setChecked(True)
-        self.CB_31.setObjectName("CB_31")
-        self.verticalLayout_3.addWidget(self.CB_31)
-        self.CB_32 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_32.setFont(font)
-        self.CB_32.setChecked(True)
-        self.CB_32.setObjectName("CB_32")
-        self.verticalLayout_3.addWidget(self.CB_32)
-        self.CB_33 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_33.setFont(font)
-        self.CB_33.setChecked(True)
-        self.CB_33.setObjectName("CB_33")
-        self.verticalLayout_3.addWidget(self.CB_33)
-        self.CB_34 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_34.setFont(font)
-        self.CB_34.setChecked(True)
-        self.CB_34.setObjectName("CB_34")
-        self.verticalLayout_3.addWidget(self.CB_34)
-        self.CB_35 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_35.setFont(font)
-        self.CB_35.setChecked(True)
-        self.CB_35.setObjectName("CB_35")
-        self.verticalLayout_3.addWidget(self.CB_35)
-        self.CB_36 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_36.setFont(font)
-        self.CB_36.setChecked(True)
-        self.CB_36.setObjectName("CB_36")
-        self.verticalLayout_3.addWidget(self.CB_36)
-        self.CB_37 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_37.setFont(font)
-        self.CB_37.setChecked(True)
-        self.CB_37.setObjectName("CB_37")
-        self.verticalLayout_3.addWidget(self.CB_37)
-        self.CB_38 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_38.setFont(font)
-        self.CB_38.setChecked(True)
-        self.CB_38.setObjectName("CB_38")
-        self.verticalLayout_3.addWidget(self.CB_38)
-        self.CB_39 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_39.setFont(font)
-        self.CB_39.setChecked(True)
-        self.CB_39.setObjectName("CB_39")
-        self.verticalLayout_3.addWidget(self.CB_39)
-        self.CB_310 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_310.setFont(font)
-        self.CB_310.setChecked(True)
-        self.CB_310.setObjectName("CB_310")
-        self.verticalLayout_3.addWidget(self.CB_310)
-        self.CB_311 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_311.setFont(font)
-        self.CB_311.setChecked(True)
-        self.CB_311.setObjectName("CB_311")
-        self.verticalLayout_3.addWidget(self.CB_311)
-        self.CB_312 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_312.setFont(font)
-        self.CB_312.setChecked(True)
-        self.CB_312.setObjectName("CB_312")
-        self.verticalLayout_3.addWidget(self.CB_312)
-        self.CB_313 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_313.setFont(font)
-        self.CB_313.setChecked(True)
-        self.CB_313.setObjectName("CB_313")
-        self.verticalLayout_3.addWidget(self.CB_313)
-        self.CB_314 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_314.setFont(font)
-        self.CB_314.setChecked(True)
-        self.CB_314.setObjectName("CB_314")
-        self.verticalLayout_3.addWidget(self.CB_314)
-        self.CB_315 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_315.setFont(font)
-        self.CB_315.setChecked(True)
-        self.CB_315.setObjectName("CB_315")
-        self.verticalLayout_3.addWidget(self.CB_315)
-        self.CB_316 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_316.setFont(font)
-        self.CB_316.setChecked(True)
-        self.CB_316.setObjectName("CB_316")
-        self.verticalLayout_3.addWidget(self.CB_316)
+
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
         self.gridLayout.addWidget(self.scrollArea, 3, 3, 3, 3)
         self.PB_File = QtWidgets.QPushButton(self.centralwidget)
@@ -271,7 +199,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addItem(spacerItem, 2, 1, 1, 1)
         self.drop_down = QtWidgets.QListView(self.centralwidget)
         self.drop_down.setStyleSheet("color: rgb(255, 255, 255);")
-        self.CB_SKUSelect = QtWidgets.QComboBox(self.centralwidget)
+        self.CB_SKUSelect = ComboBox(self.centralwidget)
         self.CB_SKUSelect.setView(self.drop_down)
         font.setPointSize(12)
         self.CB_SKUSelect.setFont(font)
@@ -286,6 +214,7 @@ class Ui_MainWindow(object):
         self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.addItem("")
+        self.CB_SKUSelect.currentTextChanged.connect(self.comboboxChanged)
         self.gridLayout.addWidget(self.CB_SKUSelect, 1, 1, 1, 1)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.gridLayout.addItem(spacerItem1, 1, 0, 5, 1)
@@ -377,22 +306,7 @@ class Ui_MainWindow(object):
         self.CB_4.setText(_translate("MainWindow", "Probe1 NTC (KN4)"))
         self.CB_5.setText(_translate("MainWindow", "Probe2 NTC (KN5)"))
         self.CB_3.setText(_translate("MainWindow", "PC NTC (KN3)"))
-        self.CB_31.setText(_translate("MainWindow", "Placeholder 1"))
-        self.CB_32.setText(_translate("MainWindow", "Placeholder 2"))
-        self.CB_33.setText(_translate("MainWindow", "Placeholder 3"))
-        self.CB_34.setText(_translate("MainWindow", "Placeholder 4"))
-        self.CB_35.setText(_translate("MainWindow", "Placeholder 5"))
-        self.CB_36.setText(_translate("MainWindow", "Placeholder 6"))
-        self.CB_37.setText(_translate("MainWindow", "Placeholder 7"))
-        self.CB_38.setText(_translate("MainWindow", "Placeholder 8"))
-        self.CB_39.setText(_translate("MainWindow", "Placeholder 9"))
-        self.CB_310.setText(_translate("MainWindow", "Placeholder 10"))
-        self.CB_311.setText(_translate("MainWindow", "Placeholder 11"))
-        self.CB_312.setText(_translate("MainWindow", "Placeholder 12"))
-        self.CB_313.setText(_translate("MainWindow", "Placeholder 13"))
-        self.CB_314.setText(_translate("MainWindow", "Placeholder 14"))
-        self.CB_315.setText(_translate("MainWindow", "Placeholder 15"))
-        self.CB_316.setText(_translate("MainWindow", "Horizontal Scroll Bar Placeholder"))
+
         self.PB_File.setText(_translate("MainWindow", "Add File"))
         self.PB_Quit.setText(_translate("MainWindow", "Quit"))
         self.PB_Clear.setText(_translate("MainWindow", "Clear"))
@@ -414,3 +328,78 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Status:"))
         self.Text_status.setSortingEnabled(__sortingEnabled)
         self.PB_Parse.setText(_translate("MainWindow", "Parse"))
+        self.parameter_label.setFont(font)
+        self.parameter_label.setText("Parameters:")
+        self.parameter_label.adjustSize()
+    
+    def comboboxChanged(self,value):
+        self.CB_SKUSelect.previous = self.CB_SKUSelect.current
+        self.CB_SKUSelect.current = value
+        if (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
+            pass
+        elif (self.CB_SKUSelect.previous == "OLxxx") and (self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
+            for i in reversed(range(self.verticalLayout_3.count())):
+                self.verticalLayout_3.itemAt(i).widget().setParent(None)
+        elif(self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (self.CB_SKUSelect.current == "OLxxx"):
+            _translate = QtCore.QCoreApplication.translate
+            self.CB_SWversion = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+            self.CB_SWversion.setEnabled(False)
+            font = QtGui.QFont()
+            font.setFamily("Calibri")
+            font.setPointSize(12)
+            self.CB_SWversion.setFont(font)
+            self.CB_SWversion.setChecked(True)
+            self.CB_SWversion.setObjectName("CB_SWversion")
+            self.verticalLayout_3.addWidget(self.CB_SWversion)
+            self.CB_1 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+            self.CB_1.setEnabled(True)
+            self.CB_1.setFont(font)
+            self.CB_1.setStyleSheet("")
+            self.CB_1.setChecked(True)
+            self.CB_1.setObjectName("CB_1")
+            self.verticalLayout_3.addWidget(self.CB_1)
+            self.CB_6 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+            self.CB_6.setFont(font)
+            self.CB_6.setChecked(True)
+            self.CB_6.setObjectName("CB_6")
+            self.verticalLayout_3.addWidget(self.CB_6)
+            self.CB_2 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+            self.CB_2.setFont(font)
+            self.CB_2.setChecked(True)
+            self.CB_2.setObjectName("CB_2")
+            self.verticalLayout_3.addWidget(self.CB_2)
+            self.CB_7 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+            self.CB_7.setFont(font)
+            self.CB_7.setChecked(True)
+            self.CB_7.setObjectName("CB_7")
+            self.verticalLayout_3.addWidget(self.CB_7)
+            self.CB_4 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+            self.CB_4.setFont(font)
+            self.CB_4.setChecked(True)
+            self.CB_4.setObjectName("CB_4")
+            self.verticalLayout_3.addWidget(self.CB_4)
+            self.CB_5 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+            self.CB_5.setFont(font)
+            self.CB_5.setChecked(True)
+            self.CB_5.setObjectName("CB_5")
+            self.verticalLayout_3.addWidget(self.CB_5)
+            self.CB_3 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
+            self.CB_3.setFont(font)
+            self.CB_3.setChecked(True)
+            self.CB_3.setObjectName("CB_3")
+            self.verticalLayout_3.addWidget(self.CB_3)
+            self.CB_SWversion.setText(_translate("MainWindow", "Software version (WZ)"))
+            self.CB_1.setText(_translate("MainWindow", "Heatsink (KN1)"))
+            self.CB_6.setText(_translate("MainWindow", "Low Pressure Switch (SW1)"))
+            self.CB_2.setText(_translate("MainWindow", "AF NTC (KN2)"))
+            self.CB_7.setText(_translate("MainWindow", "High Pressure Switch (SW2)"))
+            self.CB_4.setText(_translate("MainWindow", "Probe1 NTC (KN4)"))
+            self.CB_5.setText(_translate("MainWindow", "Probe2 NTC (KN5)"))
+            self.CB_3.setText(_translate("MainWindow", "PC NTC (KN3)"))
+
+
+            
+
+
+
+
