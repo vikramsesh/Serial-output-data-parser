@@ -18,6 +18,7 @@ from PyQt5.QtWidgets import QMessageBox
 # FILES
 import Parser_UI
 import CFP_P2_parse
+import OL600_BDP_parse
 
 displayname = ""
 
@@ -98,14 +99,15 @@ class MainWindow(QtWidgets.QMainWindow):
             font = QtGui.QFont()
             font.setPointSize(10)
             item.setFont(font)
-            if file not in unformatted_files:
-                item.setText(str(file.split('/')[-1]) + ' - Complete')
-                item.setForeground(Qt.green)
-                self.ui.Text_status.addItem(item)
-            else:
-                item.setText(str(file.split('/')[-1]) + ' - Error')
-                item.setForeground(Qt.red)
-                self.ui.Text_status.addItem(item)
+            if unformatted_files != None:
+                if file not in unformatted_files:
+                    item.setText(str(file.split('/')[-1]) + ' - Complete')
+                    item.setForeground(Qt.green)
+                    self.ui.Text_status.addItem(item)
+                else:
+                    item.setText(str(file.split('/')[-1]) + ' - Error')
+                    item.setForeground(Qt.red)
+                    self.ui.Text_status.addItem(item)
     
     def noFilesAdded(self):
         error = QMessageBox()
