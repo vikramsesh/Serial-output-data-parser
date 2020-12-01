@@ -55,17 +55,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.addAction(quit_action)
         self.ui.PB_Quit.clicked.connect(QtWidgets.qApp.closeAllWindows)
 
-        self.ui.PB_Clear.clicked.connect(self.clearText)
-        self.ui.PB_File.clicked.connect(self.addFiles)
+        # Parse button and shortcut
+        parse_action = QtWidgets.QAction('Parse', self)
+        parse_action.setShortcuts(['Return'])
+        parse_action.triggered.connect(self.parse)
+        self.addAction(parse_action)
         self.ui.PB_Parse.clicked.connect(self.parse)
 
+        self.ui.PB_Clear.clicked.connect(self.clearText)
+        self.ui.PB_File.clicked.connect(self.addFiles)
+
+
     def clearText(self):
-        # self.ui.PB_Parse.setEnabled(True)
-        # self.ui.PB_Parse.setStyleSheet("background-color: rgba(75, 178, 249, 64);\n"
-        #                                "border-style:outset;\n"
-        #                                "color: rgb(255, 255, 255);\n"
-        #                                "border-radius:5px;\n"
-        #                                "padding:10px;")
 
         self.ui.Text_drop.links = set()
         self.ui.Text_drop.clear()
@@ -81,10 +82,10 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Text_status.item(0).setFont(font)
         self.ui.PB_Parse.setEnabled(True)
         self.ui.PB_Parse.setStyleSheet("background-color: #3700B3;"
-                                    "border-style:outset;"
-                                    "color: #FFFFFF;"
-                                    "border-radius:5px;"
-                                    "padding:10px;")
+                                       "border-style:outset;"
+                                       "color: #FFFFFF;"
+                                       "border-radius:5px;"
+                                       "padding:10px;")
 
     def addFiles(self):
         files = fileopenbox(multiple=True)
@@ -106,7 +107,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 item.setText(str(file.split('/')[-1]) + ' - Error')
                 item.setForeground(Qt.red)
                 self.ui.Text_status.addItem(item)
-    
+
     def noFilesAdded(self):
         error = QMessageBox()
         error.setText("Error! No files available to parse!")
@@ -118,13 +119,12 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.ui.Text_drop.count() > 1:
             self.ui.PB_Parse.setEnabled(False)
             self.ui.PB_Parse.setStyleSheet("background-color: rgba(55,0,179,128);"
-                                    "border-style:outset;"
-                                    "color: #FFFFFF;"
-                                    "border-radius:5px;"
-                                    "padding:10px;")
+                                           "border-style:outset;"
+                                           "color: #FFFFFF;"
+                                           "border-radius:5px;"
+                                           "padding:10px;")
         else:
             self.noFilesAdded()
-
 
         if selected_parser == 'OLxxx':
             pass
