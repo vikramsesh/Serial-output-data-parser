@@ -43,54 +43,18 @@ def parse(Myfiles):
             
             
         except:
-            print(1)
             pass
         
         
         data = data.split('\n')
-        # print("------------------------------------------------------------")
-        # print(data[0])
-        # print(data[1])
-        # print(data[2])
-        # print(data[3])
-        # print(data[4])
-
-        # print("------------------------------------------------------------")
-        # print(data[len(data)-5])
-        # print(data[len(data)-4])
-        # print(data[len(data)-3])
-        # print(data[len(data)-2])
-        # print(data[len(data)-1])
-        # print("------------------------------------------------------------")
-        data.remove(data[0])
-        data.remove(data[0])
-        data.remove(data[len(data)-1])
-        data.remove(data[len(data)-1])
-        data.remove(data[len(data)-1])
-
-        # print("------------------------------------------------------------")
-        # print(data[0])
-        # print(data[1])
-        # print(data[2])
-        # print(data[3])
-        # print(data[4])
-
-        # print("------------------------------------------------------------")
-        # print(data[len(data)-5])
-        # print(data[len(data)-4])
-        # print(data[len(data)-3])
-        # print(data[len(data)-2])
-        # print(data[len(data)-1])
-        # print("------------------------------------------------------------")
-
-        # print(data[4870])
-        # print(data[4871])
-        # print(data[4872])
-        # print(data[4873])
-        # print(data[4874])
-        # print(data[4875])
-        # print("---------------------------------")   
         
+        data.remove(data[0])
+        data.remove(data[0])
+        data.remove(data[len(data)-1])
+        data.remove(data[len(data)-1])
+        data.remove(data[len(data)-1])
+
+       
        
         # ##print("Step2")
 
@@ -110,13 +74,7 @@ def parse(Myfiles):
         for index, i in enumerate(HEADERS):
             worksheet.write(0, index, i,header_format)
         ##    print("Step3")
-        print(data[75])
-        print(data[76])
-        print(data[77])
-        print(data[78])
-        print(data[79])
-        print(data[80])
-        print("---------------------------------")        
+              
         for row in range (0,len(data)):
             
             
