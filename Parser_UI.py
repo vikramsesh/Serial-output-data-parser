@@ -80,8 +80,8 @@ class Ui_MainWindow(object):
                                       "selection-background-color: #03DAC6;"
                                       "border-style:outset;"
                                       "border-radius:5px;"
-                                      # "border: 2px solid;"
-                                      # "border-color: #C38FFF;"
+                                      "border: 1px solid;"
+                                      "border-color: #673AB7;"
                                       "color: #d9d9d9;"
                                       "padding:8px;")
         font = QtGui.QFont()
@@ -197,8 +197,8 @@ class Ui_MainWindow(object):
         self.drop_down.setStyleSheet("color: #D9D9D9;"
                                      "background-color: #2C2C2C;"
                                      "border : 0px solid;"
-                                     # "border-radius:5px;"
-                                     # "border-color: #C38FFF;"
+                                    #  "border-radius:1px;"
+                                    #  "border-color: #673AB7;"
                                      )
         self.CB_SKUSelect = ComboBox(self.centralwidget)
         self.CB_SKUSelect.setView(self.drop_down)
@@ -208,9 +208,9 @@ class Ui_MainWindow(object):
         self.CB_SKUSelect.setStyleSheet("QComboBox"
                                         "{"
                                         "color: #D9D9D9;"
-                                        # "border : 1px solid;"
+                                        "border : 1px solid;"
                                         "border-radius:5px;"
-                                        "border-color: #C38FFF;"
+                                        "border-color: #673AB7;"
                                         "padding-left:10px;"
                                         "background-color: #2C2C2C;"
                                         "}"
@@ -235,7 +235,6 @@ class Ui_MainWindow(object):
                                         )
         self.CB_SKUSelect.setObjectName("CB_SKUSelect")
         self.CB_SKUSelect.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.addItem("")
         # self.CB_SKUSelect.currentTextChanged.connect(self.comboboxChanged)
@@ -323,8 +322,8 @@ class Ui_MainWindow(object):
                                      "selection-background-color: #3700B3;"
                                      "border-style:outset;"
                                      "border-radius:5px;"
-                                     # "border: 2px solid;"
-                                     # "border-color: #C38FFF;"
+                                     "border: 1px solid;"
+                                     "border-color: #673AB7;"
                                      "color: #d9d9d9;"
                                      "padding:8px;")
         self.Text_drop.setObjectName("Text_drop")
@@ -385,8 +384,8 @@ class Ui_MainWindow(object):
         self.Text_status.setStyleSheet("background-color: #2C2C2C;"
                                        "border-style:outset;"
                                        "border-radius:5px;"
-                                       # "border: 2px solid;"
-                                       # "border-color: #83DEC4;"
+                                       "border: 1px solid;"
+                                       "border-color: #673AB7;"
                                        "color: #d9d9d9;"
                                        "padding:8px;")
         self.Text_status.setObjectName("Text_status")
@@ -447,8 +446,7 @@ class Ui_MainWindow(object):
         self.PB_Clear.setText(_translate("MainWindow", "Clear"))
         self.PB_Parse.setText(_translate("MainWindow", "Parse"))
         self.CB_SKUSelect.setItemText(0, _translate("MainWindow", "OLxxx"))
-        self.CB_SKUSelect.setItemText(1, _translate("MainWindow", "CMxxx"))
-        self.CB_SKUSelect.setItemText(2, _translate("MainWindow", "CFPxxx"))
+        self.CB_SKUSelect.setItemText(1, _translate("MainWindow", "CFPxxx"))
         __sortingEnabled = self.Text_drop.isSortingEnabled()
         self.Text_drop.setSortingEnabled(False)
         font = QtGui.QFont()
@@ -464,17 +462,4 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Status:"))
         self.Text_status.setSortingEnabled(__sortingEnabled)
 
-    # def comboboxChanged(self, value):
-    #     self.CB_SKUSelect.previous = self.CB_SKUSelect.current
-    #     self.CB_SKUSelect.current = value
-    #     if (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (
-    #             self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
-    #         pass
-    #     elif (self.CB_SKUSelect.previous == "OLxxx") and (
-    #             self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
-    #         for i in range(1, self.listWidget.count()):
-    #             self.listWidget.item(i).setHidden(True)
-    #     elif (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (
-    #             self.CB_SKUSelect.current == "OLxxx"):
-    #         for i in range(1, self.listWidget.count()):
-    #             self.listWidget.item(i).setHidden(False)
+    
