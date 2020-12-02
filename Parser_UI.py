@@ -27,6 +27,7 @@ class ListBoxWidget(QListWidget):
         self.links = set()
         self.setAcceptDrops(True)
         self.setGeometry(QtCore.QRect(400, 400, 200, 200))
+     
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls:
@@ -64,147 +65,70 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 800)
         MainWindow.setAcceptDrops(True)
-        MainWindow.setStyleSheet("background-color: #1E1E1E;")
+        MainWindow.setStyleSheet("background-color: black;")
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        self.scrollArea = QtWidgets.QScrollArea(self.centralwidget)
-        # self.scrollArea.setMinimumSize(QtCore.QSize(100, 450))
-
-        self.scrollArea.setStyleSheet(
-            "border-radius:5px;"
-            "border-width: 1px;"
-            "border-color: #FF0266;"
-        )
-        self.scrollArea.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-        self.scrollArea.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-        self.scrollArea.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
-        self.scrollArea.setWidgetResizable(True)
-        self.scrollArea.setObjectName("scrollArea")
-        self.scrollArea.horizontalScrollBar().setStyleSheet("QScrollBar"
-                                                            "{"
-                                                            "height:5px;"
-                                                            "background:#FFFFFF;"
-                                                            "border-radius:10px;"
-                                                            "}"
-                                                            "QScrollBar::handle"
-                                                            "{"
-                                                            "background : #C38FFF;"
-                                                            "border-radius:3px;"
-                                                            "}"
-                                                            )
-        self.scrollArea.verticalScrollBar().setStyleSheet("QScrollBar"
-                                                          "{"
-                                                          "width:5px;"
-                                                          "background:#FFFFFF;"
-                                                          "border-radius:10px;"
-                                                          "}"
-                                                          "QScrollBar::handle"
-                                                          "{"
-                                                          "background : #C38FFF;"
-                                                          "border-radius:3px;"
-                                                          "}"
-                                                          )
-        self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 259, 544))
-        self.scrollAreaWidgetContents.setStyleSheet("color: #d9d9d9;"
-                                                    "border-radius:5px;"
-                                                    "border-width: 1px;"
-                                                    "border-color: #FF0266;"
-                                                    )
-        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
-        self.verticalLayout_3 = QtWidgets.QVBoxLayout(self.scrollAreaWidgetContents)
-        self.verticalLayout_3.setObjectName("verticalLayout_3")
+        
+        self.listWidget = QtWidgets.QListWidget(self.centralwidget)
+        self.listWidget.setStyleSheet("background-color: transparent;"
+                                     "selection-background-color: #3700B3;"
+                                     "border-style:outset;"
+                                     "border-radius:5px;"
+                                     "border: 1px solid;"
+                                     "border-color: #C38FFF;"
+                                     "color: #d9d9d9;"
+                                     "padding:8px;")
         font = QtGui.QFont()
-        font.setFamily("Calibri")
         font.setPointSize(12)
-        self.parameter_label = QtWidgets.QLabel(self.scrollAreaWidgetContents)
-        self.CB_SWversion = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_SWversion.setEnabled(False)
-        self.CB_SWversion.setFont(font)
-        self.CB_SWversion.setChecked(True)
-        self.CB_SWversion.setObjectName("CB_SWversion")
-        self.verticalLayout_3.addWidget(self.CB_SWversion)
 
-        self.CB_1 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_1.setEnabled(True)
-        self.CB_1.setFont(font)
-        self.CB_1.setStyleSheet("")
-        self.CB_1.setChecked(True)
-        self.CB_1.setObjectName("CB_1")
-        self.CB_1.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.verticalLayout_3.addWidget(self.CB_1)
+        item = QtWidgets.QListWidgetItem()
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        item = QtWidgets.QListWidgetItem()
+        item.setCheckState(QtCore.Qt.Checked)
+        item.setFont(font)
+        self.listWidget.addItem(item)
+        
+        
+        self.listWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.listWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        self.listWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
+        self.listWidget.setObjectName("listwidget")
+        
+        
 
-        self.CB_2 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_2.setFont(font)
-        self.CB_2.setChecked(True)
-        self.CB_2.setObjectName("CB_2")
-        self.CB_2.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.verticalLayout_3.addWidget(self.CB_2)
-
-        self.CB_3 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_3.setFont(font)
-        self.CB_3.setChecked(True)
-        self.CB_3.setObjectName("CB_3")
-        self.CB_3.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.verticalLayout_3.addWidget(self.CB_3)
-
-        self.CB_4 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_4.setFont(font)
-        self.CB_4.setChecked(True)
-        self.CB_4.setObjectName("CB_4")
-        self.CB_4.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.verticalLayout_3.addWidget(self.CB_4)
-
-        self.CB_5 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_5.setFont(font)
-        self.CB_5.setChecked(True)
-        self.CB_5.setObjectName("CB_5")
-        self.CB_5.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.verticalLayout_3.addWidget(self.CB_5)
-
-        self.CB_6 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_6.setFont(font)
-        self.CB_6.setChecked(True)
-        self.CB_6.setObjectName("CB_6")
-        self.CB_6.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.verticalLayout_3.addWidget(self.CB_6)
-
-        self.CB_7 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        self.CB_7.setFont(font)
-        self.CB_7.setChecked(True)
-        self.CB_7.setObjectName("CB_7")
-        self.CB_7.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.verticalLayout_3.addWidget(self.CB_7)
-
-        # self.CB_8 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        # self.CB_8.setFont(font)
-        # self.CB_8.setChecked(True)
-        # self.CB_8.setObjectName("CB_8")
-        # self.verticalLayout_3.addWidget(self.CB_8)
-        #
-        # self.CB_9 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        # self.CB_9.setFont(font)
-        # self.CB_9.setChecked(True)
-        # self.CB_9.setObjectName("CB_9")
-        # self.verticalLayout_3.addWidget(self.CB_9)
-        #
-        # self.CB_10 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        # self.CB_10.setFont(font)
-        # self.CB_10.setChecked(True)
-        # self.CB_10.setObjectName("CB_10")
-        # self.verticalLayout_3.addWidget(self.CB_10)
-        #
-        # self.CB_11 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-        # self.CB_11.setFont(font)
-        # self.CB_11.setChecked(True)
-        # self.CB_11.setObjectName("CB_11")
-        # self.verticalLayout_3.addWidget(self.CB_11)
-
-        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
-        self.gridLayout.addWidget(self.scrollArea, 2, 4, 4, 3)
+        self.gridLayout.addWidget(self.listWidget, 2, 4, 4, 3)
 
         # Drop down combo button
         self.drop_down = QtWidgets.QListView(self.centralwidget)
@@ -404,14 +328,27 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Parser App"))
-        self.CB_SWversion.setText(_translate("MainWindow", "Software version (WZ)"))
-        self.CB_1.setText(_translate("MainWindow", "Heatsink (KN1)"))
-        self.CB_2.setText(_translate("MainWindow", "AF NTC (KN2)"))
-        self.CB_3.setText(_translate("MainWindow", "PC NTC (KN3)"))
-        self.CB_4.setText(_translate("MainWindow", "Probe1 NTC (KN4)"))
-        self.CB_5.setText(_translate("MainWindow", "Probe2 NTC (KN5)"))
-        self.CB_6.setText(_translate("MainWindow", "Low Pressure Switch (SW1)"))
-        self.CB_7.setText(_translate("MainWindow", "High Pressure Switch (SW2)"))
+        item = self.listWidget.item(0)
+        item.setText("Parameters: ")
+        item = self.listWidget.item(1)
+        item.setText("Software version (WZ)")
+        item = self.listWidget.item(2)
+        item.setText("Heatsink (KN1)")
+        item = self.listWidget.item(3)
+        item.setText("AF NTC (KN2)")
+        item = self.listWidget.item(4)
+        item.setText("PC NTC (KN3)")
+        item = self.listWidget.item(5)
+        item.setText("Probe1 NTC (KN4)")
+        item = self.listWidget.item(6)
+        item.setText("Probe2 NTC (KN5)")
+        item = self.listWidget.item(7)
+        item.setText("Low Pressure Switch (SW1)")
+        item = self.listWidget.item(8)
+        item.setText("High Pressure Switch (SW2)")
+        
+        
+
         # self.CB_8.setText(
         #     _translate("MainWindow", "New Placeholder for checking scrolling. What happens if I write a paragraph"))
         # self.CB_9.setText(
@@ -442,9 +379,7 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Status:"))
         self.Text_status.setSortingEnabled(__sortingEnabled)
         self.PB_Parse.setText(_translate("MainWindow", "Parse"))
-        self.parameter_label.setFont(font)
-        self.parameter_label.setText("Parameters:")
-        self.parameter_label.adjustSize()
+        
 
     def comboboxChanged(self, value):
         self.CB_SKUSelect.previous = self.CB_SKUSelect.current
@@ -454,62 +389,9 @@ class Ui_MainWindow(object):
             pass
         elif (self.CB_SKUSelect.previous == "OLxxx") and (
                 self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
-            for i in reversed(range(self.verticalLayout_3.count())):
-                self.verticalLayout_3.itemAt(i).widget().setParent(None)
+            for i in range(1,self.listWidget.count()):
+                self.listWidget.item(i).setHidden(True)
         elif (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (
                 self.CB_SKUSelect.current == "OLxxx"):
-            _translate = QtCore.QCoreApplication.translate
-            self.CB_SWversion = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-            self.CB_SWversion.setEnabled(False)
-            font = QtGui.QFont()
-            font.setFamily("Calibri")
-            font.setPointSize(12)
-            self.CB_SWversion.setFont(font)
-            self.CB_SWversion.setChecked(True)
-            self.CB_SWversion.setObjectName("CB_SWversion")
-            self.verticalLayout_3.addWidget(self.CB_SWversion)
-            self.CB_1 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-            self.CB_1.setEnabled(True)
-            self.CB_1.setFont(font)
-            self.CB_1.setStyleSheet("")
-            self.CB_1.setChecked(True)
-            self.CB_1.setObjectName("CB_1")
-            self.verticalLayout_3.addWidget(self.CB_1)
-            self.CB_6 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-            self.CB_6.setFont(font)
-            self.CB_6.setChecked(True)
-            self.CB_6.setObjectName("CB_6")
-            self.verticalLayout_3.addWidget(self.CB_6)
-            self.CB_2 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-            self.CB_2.setFont(font)
-            self.CB_2.setChecked(True)
-            self.CB_2.setObjectName("CB_2")
-            self.verticalLayout_3.addWidget(self.CB_2)
-            self.CB_7 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-            self.CB_7.setFont(font)
-            self.CB_7.setChecked(True)
-            self.CB_7.setObjectName("CB_7")
-            self.verticalLayout_3.addWidget(self.CB_7)
-            self.CB_4 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-            self.CB_4.setFont(font)
-            self.CB_4.setChecked(True)
-            self.CB_4.setObjectName("CB_4")
-            self.verticalLayout_3.addWidget(self.CB_4)
-            self.CB_5 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-            self.CB_5.setFont(font)
-            self.CB_5.setChecked(True)
-            self.CB_5.setObjectName("CB_5")
-            self.verticalLayout_3.addWidget(self.CB_5)
-            self.CB_3 = QtWidgets.QCheckBox(self.scrollAreaWidgetContents)
-            self.CB_3.setFont(font)
-            self.CB_3.setChecked(True)
-            self.CB_3.setObjectName("CB_3")
-            self.verticalLayout_3.addWidget(self.CB_3)
-            self.CB_SWversion.setText(_translate("MainWindow", "Software version (WZ)"))
-            self.CB_1.setText(_translate("MainWindow", "Heatsink (KN1)"))
-            self.CB_6.setText(_translate("MainWindow", "Low Pressure Switch (SW1)"))
-            self.CB_2.setText(_translate("MainWindow", "AF NTC (KN2)"))
-            self.CB_7.setText(_translate("MainWindow", "High Pressure Switch (SW2)"))
-            self.CB_4.setText(_translate("MainWindow", "Probe1 NTC (KN4)"))
-            self.CB_5.setText(_translate("MainWindow", "Probe2 NTC (KN5)"))
-            self.CB_3.setText(_translate("MainWindow", "PC NTC (KN3)"))
+           for i in range(1,self.listWidget.count()):
+                self.listWidget.item(i).setHidden(False)
