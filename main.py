@@ -73,9 +73,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.PB_Clear.clicked.connect(self.clearText)
         self.ui.PB_File.clicked.connect(self.addFiles)
 
-        #Drop Down 
-        self.ui.CB_SKUSelect.currentTextChanged.connect(self.comboboxChanged)
-
     def clearText(self):
 
         self.ui.Text_drop.links = set()
@@ -123,22 +120,6 @@ class MainWindow(QtWidgets.QMainWindow):
                     item.setText(str(file.split('/')[-1]) + ' - Error')
                     item.setForeground(Qt.red)
                     self.ui.Text_status.addItem(item)
-
-    def comboboxChanged(self, value):
-        self.ui.CB_SKUSelect.previous = self.ui.CB_SKUSelect.current
-        self.ui.CB_SKUSelect.current = value
-        if (self.ui.CB_SKUSelect.previous == "CFPxxx" or self.ui.CB_SKUSelect.previous == "CMxxx") and (
-                self.ui.CB_SKUSelect.current == "CFPxxx" or self.ui.CB_SKUSelect.current == "CMxxx"):
-            pass
-        elif (self.ui.CB_SKUSelect.previous == "OLxxx") and (
-                self.ui.CB_SKUSelect.current == "CFPxxx" or self.ui.CB_SKUSelect.current == "CMxxx"):
-            for i in range(1, self.ui.listWidget.count()):
-                self.ui.listWidget.item(i).setHidden(True)
-        elif (self.ui.CB_SKUSelect.previous == "CFPxxx" or self.ui.CB_SKUSelect.previous == "CMxxx") and (
-                self.ui.CB_SKUSelect.current == "OLxxx"):
-            for i in range(1, self.ui.listWidget.count()):
-                self.ui.listWidget.item(i).setHidden(False)
-
 
     def parse(self):
         selected_parser = self.ui.CB_SKUSelect.currentText()
