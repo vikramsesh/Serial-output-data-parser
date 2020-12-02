@@ -10,6 +10,7 @@
 
 from PyQt5 import *
 from PyQt5.QtWidgets import *
+from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
@@ -27,7 +28,6 @@ class ListBoxWidget(QListWidget):
         self.links = set()
         self.setAcceptDrops(True)
         self.setGeometry(QtCore.QRect(400, 400, 200, 200))
-     
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls:
@@ -60,35 +60,49 @@ class ListBoxWidget(QListWidget):
 
 
 class Ui_MainWindow(object):
+
     def setupUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(800, 800)
         MainWindow.setAcceptDrops(True)
-        MainWindow.setStyleSheet("background-color: black;")
+        MainWindow.setStyleSheet("background-color: #1F1F1F;")
+        MainWindow.setWindowIcon(QtGui.QIcon("icon/binary-file.png"))
+        # MainWindow.setWindowFlags(Qt.FramelessWindowHint)
 
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        
+
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setStyleSheet("background-color: transparent;"
-                                     "selection-background-color: #3700B3;"
-                                     "border-style:outset;"
-                                     "border-radius:5px;"
-                                     "border: 1px solid;"
-                                     "border-color: #C38FFF;"
-                                     "color: #d9d9d9;"
-                                     "padding:8px;")
+        self.listWidget.setStyleSheet("background-color: #2C2C2C;"
+                                      "selection-background-color: #03DAC6;"
+                                      "border-style:outset;"
+                                      "border-radius:5px;"
+                                      # "border: 2px solid;"
+                                      # "border-color: #C38FFF;"
+                                      "color: #d9d9d9;"
+                                      "padding:8px;")
         font = QtGui.QFont()
+        font.setFamily("Calibri")
         font.setPointSize(12)
 
         item = QtWidgets.QListWidgetItem()
         item.setFont(font)
         self.listWidget.addItem(item)
+        self.listWidget.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
+        self.listWidget.itemPressed["QListWidgetItem*"].connect(
+            lambda item: item.setCheckState(
+                Qt.Checked
+                if item.checkState() == Qt.Unchecked
+                else Qt.Unchecked
+            )
+        )
+        self.listWidget.setSpacing(8)
         item = QtWidgets.QListWidgetItem()
         item.setCheckState(QtCore.Qt.Checked)
+        # item.setEnabled(False)
         item.setFont(font)
         self.listWidget.addItem(item)
         item = QtWidgets.QListWidgetItem()
@@ -119,23 +133,73 @@ class Ui_MainWindow(object):
         item.setCheckState(QtCore.Qt.Checked)
         item.setFont(font)
         self.listWidget.addItem(item)
-        
-        
-        self.listWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
-        self.listWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+
+        # self.listWidget.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+        # self.listWidget.setHorizontalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
         self.listWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.listWidget.setObjectName("listwidget")
-        
-        
+
+        self.listWidget.horizontalScrollBar().setStyleSheet("QScrollBar"
+                                                            "{"
+                                                            "height:8px;"
+                                                            "background:solid white;"
+                                                            "border-radius:0px;"
+                                                            "}"
+                                                            "QScrollBar::handle"
+                                                            "{"
+                                                            "background:#673AB7;"
+                                                            "border-radius:5px;"
+                                                            "height:5px"
+                                                            "}"
+                                                            "QScrollBar::add-line:horizontal"
+                                                            "{"
+                                                            "border:none;"
+                                                            "background:none;"
+                                                            "color:none;"
+                                                            "}"
+                                                            "QScrollBar::sub-line:horizontal"
+                                                            "{"
+                                                            "border:none;"
+                                                            "background:none;"
+                                                            "color:none;"
+                                                            "}"
+                                                            )
+
+        self.listWidget.verticalScrollBar().setStyleSheet("QScrollBar"
+                                                          "{"
+                                                          "width:5px;"
+                                                          "background:transparent;"
+                                                          "border-radius:50px;"
+                                                          "}"
+                                                          "QScrollBar::handle"
+                                                          "{"
+                                                          "background : #C38FFF;"
+                                                          "border-radius:10px;"
+                                                          "}"
+                                                          "QScrollBar::add-line:vertical"
+                                                          "{"
+                                                          "border:none;"
+                                                          "background:none;"
+                                                          "color:none;"
+                                                          "}"
+                                                          "QScrollBar::sub-line:vertical"
+                                                          "{"
+                                                          "border:none;"
+                                                          "background:none;"
+                                                          "color:none;"
+                                                          "}"
+                                                          )
 
         self.gridLayout.addWidget(self.listWidget, 2, 4, 4, 3)
 
         # Drop down combo button
         self.drop_down = QtWidgets.QListView(self.centralwidget)
         self.drop_down.setStyleSheet("color: #D9D9D9;"
-                                     "border : 1px solid;"
-                                     "border-radius:5px;"
-                                     "border-color: #C38FFF;")
+                                     "background-color: #2C2C2C;"
+                                     "border : 0px solid;"
+                                     # "border-radius:5px;"
+                                     # "border-color: #C38FFF;"
+                                     )
         self.CB_SKUSelect = ComboBox(self.centralwidget)
         self.CB_SKUSelect.setView(self.drop_down)
         font.setPointSize(12)
@@ -144,9 +208,11 @@ class Ui_MainWindow(object):
         self.CB_SKUSelect.setStyleSheet("QComboBox"
                                         "{"
                                         "color: #D9D9D9;"
-                                        "border : 1px solid;"
+                                        # "border : 1px solid;"
                                         "border-radius:5px;"
                                         "border-color: #C38FFF;"
+                                        "padding-left:10px;"
+                                        "background-color: #2C2C2C;"
                                         "}"
                                         "QComboBox::drop-down"
                                         "{"
@@ -154,7 +220,7 @@ class Ui_MainWindow(object):
                                         "}"
                                         "QComboBox::focus"
                                         "{"
-                                        "color: #C38FFF;"
+                                        "color: #FF6F00;"
                                         "}"
                                         "QComboBox::down-arrow"
                                         "{"
@@ -173,31 +239,43 @@ class Ui_MainWindow(object):
         self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.currentTextChanged.connect(self.comboboxChanged)
+        self.CB_SKUSelect.setFixedHeight(60)
         self.gridLayout.addWidget(self.CB_SKUSelect, 1, 1, 1, 3)
 
         # Push Button
         self.PB_File = QtWidgets.QPushButton(self.centralwidget)
         font.setPointSize(14)
         self.PB_File.setFont(font)
-        self.PB_File.setStyleSheet("background-color: #C38FFF;"
+        self.PB_File.setStyleSheet("background-color: #673AB7;"
                                    "border-style:outset;"
-                                   "color: #00000;"
-                                   "padding:10px;"
-                                   "border-radius:5px;")
+                                   # "border : 2px solid;"
+                                   # "border-color: #C38FFF;"
+                                   "color: #D9D9D9;"
+                                   "height:30px;"
+                                   "padding-top: 10px;"
+                                   "padding-bottom: 10px;"
+                                   "padding-left: 10px;"
+                                   "padding-right: 10px;"
+                                   "border-radius:10px;")
         self.PB_File.setObjectName("PB_File")
         self.PB_File.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.PB_File.setIcon(QIcon("icon/file.png"))
+        # self.PB_File.setIcon(QIcon("icon/paperclip.png"))
 
         self.gridLayout.addWidget(self.PB_File, 7, 1, 1, 1)
 
         self.PB_Parse = QtWidgets.QPushButton(self.centralwidget)
         font.setPointSize(14)
         self.PB_Parse.setFont(font)
-        self.PB_Parse.setStyleSheet("background-color: #3700B3;"
+        self.PB_Parse.setStyleSheet("background-color: #673AB7;"
                                     "border-style:outset;"
-                                    "color: #FFFFFF;"
-                                    "border-radius:5px;"
-                                    "padding:10px;")
+                                    "color: #D9D9D9;"
+                                    "border-radius:10px;"
+                                    "height:30px;"
+                                    "padding-top: 10px;"
+                                    "padding-bottom: 10px;"
+                                    "padding-left: 10px;"
+                                    "padding-right: 10px;"
+                                    )
         self.PB_Parse.setObjectName("PB_Parse")
         self.PB_Parse.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.gridLayout.addWidget(self.PB_Parse, 7, 2, 1, 2)
@@ -205,11 +283,18 @@ class Ui_MainWindow(object):
         self.PB_Clear = QtWidgets.QPushButton(self.centralwidget)
         font.setPointSize(14)
         self.PB_Clear.setFont(font)
-        self.PB_Clear.setStyleSheet("background-color: #03DAC6;"
+        self.PB_Clear.setStyleSheet("background-color: #673AB7;"
                                     "border-style:outset;"
-                                    "color: #00000;"
-                                    "border-radius:5px;"
-                                    "padding:10px;")
+                                    "color: #D9D9D9;"
+                                    "border-radius:10px;"
+                                    # "border : 2px solid;"
+                                    # "border-color: #03DAC6;"
+                                    "height:30px;"
+                                    "padding-top: 10px;"
+                                    "padding-bottom: 10px;"
+                                    "padding-left: 10px;"
+                                    "padding-right: 10px;"
+                                    )
         self.PB_Clear.setObjectName("PB_Clear")
         self.PB_Clear.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.gridLayout.addWidget(self.PB_Clear, 7, 4, 1, 2)
@@ -220,38 +305,38 @@ class Ui_MainWindow(object):
         self.PB_Quit.setStyleSheet("background-color: #D0112B;"
                                    "border-style:outset;"
                                    "color: #D9D9D9;"
-                                   "border-radius:5px;"
-                                   "padding:10px;")
+                                   "height:30px;"
+                                   # "border : 5px solid;"
+                                   # "border-color: #D0112B;"
+                                   "padding-top: 10px;"
+                                   "padding-bottom: 10px;"
+                                   "padding-left: 10px;"
+                                   "padding-right: 10px;"
+                                   "border-radius:20px;"
+                                   )
         self.PB_Quit.setObjectName("PB_Quit")
         self.PB_Quit.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
         self.gridLayout.addWidget(self.PB_Quit, 7, 6, 1, 1)
 
-        # spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        # self.gridLayout.addItem(spacerItem, 2, 1, 1, 1)
-
-        # spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        # self.gridLayout.addItem(spacerItem1, 1, 0, 5, 1)
-        # spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        # self.gridLayout.addItem(spacerItem2, 3, 6, 3, 1)
         self.Text_drop = ListBoxWidget(self.centralwidget)
-        self.Text_drop.setStyleSheet("background-color: transparent;"
+        self.Text_drop.setStyleSheet("background-color: #2C2C2C;"
                                      "selection-background-color: #3700B3;"
                                      "border-style:outset;"
                                      "border-radius:5px;"
-                                     "border: 1px solid;"
-                                     "border-color: #C38FFF;"
+                                     # "border: 2px solid;"
+                                     # "border-color: #C38FFF;"
                                      "color: #d9d9d9;"
                                      "padding:8px;")
         self.Text_drop.setObjectName("Text_drop")
         self.Text_drop.horizontalScrollBar().setStyleSheet("QScrollBar"
                                                            "{"
                                                            "height:8px;"
-                                                           "background:#1E1E1E;"
+                                                           "background:#673AB7;"
                                                            "border-radius:0px;"
                                                            "}"
                                                            "QScrollBar::handle"
                                                            "{"
-                                                           "background:#C38FFF;"
+                                                           "background:#000000;"
                                                            "border-radius:0px;"
                                                            "width:5px"
                                                            "}"
@@ -295,31 +380,30 @@ class Ui_MainWindow(object):
         item = QtWidgets.QListWidgetItem()
         self.Text_drop.addItem(item)
         self.gridLayout.addWidget(self.Text_drop, 2, 1, 2, 3)
+
         self.Text_status = ListBoxWidget(self.centralwidget)
-        self.Text_status.setStyleSheet("background-color: transparent;"
+        self.Text_status.setStyleSheet("background-color: #2C2C2C;"
                                        "border-style:outset;"
                                        "border-radius:5px;"
-                                       "border: 1px solid;"
-                                       "border-color: #C38FFF;"
+                                       # "border: 2px solid;"
+                                       # "border-color: #83DEC4;"
                                        "color: #d9d9d9;"
                                        "padding:8px;")
         self.Text_status.setObjectName("Text_status")
         item = QtWidgets.QListWidgetItem()
         self.Text_status.addItem(item)
         self.gridLayout.addWidget(self.Text_status, 4, 1, 2, 3)
-        # spacerItem3 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        # self.gridLayout.addItem(spacerItem3, 6, 1, 1, 5)
-        # spacerItem4 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        # self.gridLayout.addItem(spacerItem4, 0, 1, 1, 1)
-        # spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        # self.gridLayout.addItem(spacerItem5, 4, 1, 1, 1)
-        # spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        # self.gridLayout.addItem(spacerItem6, 3, 2, 3, 1)
-        MainWindow.setCentralWidget(self.centralwidget)
-        self.statusbar = QtWidgets.QStatusBar(MainWindow)
-        self.statusbar.setObjectName("statusbar")
-        MainWindow.setStatusBar(self.statusbar)
 
+        self.info_label = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setPointSize(8)
+        self.info_label.setText("© Ninja Testing")
+        self.info_label.setFont(font)
+        self.info_label.setAlignment(QtCore.Qt.AlignRight)
+        self.info_label.setStyleSheet("color: #d9d9d9;")
+        self.gridLayout.addWidget(self.info_label, 1, 4, 1, 3)
+
+        MainWindow.setCentralWidget(self.centralwidget)
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
@@ -327,11 +411,13 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "Parser App"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "Parser Application"))
         item = self.listWidget.item(0)
         item.setText("Parameters: ")
+        item.setFlags(Qt.NoItemFlags)
         item = self.listWidget.item(1)
         item.setText("Software version (WZ)")
+        item.setFlags(Qt.NoItemFlags)
         item = self.listWidget.item(2)
         item.setText("Heatsink (KN1)")
         item = self.listWidget.item(3)
@@ -346,8 +432,6 @@ class Ui_MainWindow(object):
         item.setText("Low Pressure Switch (SW1)")
         item = self.listWidget.item(8)
         item.setText("High Pressure Switch (SW2)")
-        
-        
 
         # self.CB_8.setText(
         #     _translate("MainWindow", "New Placeholder for checking scrolling. What happens if I write a paragraph"))
@@ -361,6 +445,7 @@ class Ui_MainWindow(object):
         self.PB_File.setText(_translate("MainWindow", "Add File"))
         self.PB_Quit.setText(_translate("MainWindow", "Quit"))
         self.PB_Clear.setText(_translate("MainWindow", "Clear"))
+        self.PB_Parse.setText(_translate("MainWindow", "Parse"))
         self.CB_SKUSelect.setItemText(0, _translate("MainWindow", "OLxxx"))
         self.CB_SKUSelect.setItemText(1, _translate("MainWindow", "CMxxx"))
         self.CB_SKUSelect.setItemText(2, _translate("MainWindow", "CFPxxx"))
@@ -378,8 +463,6 @@ class Ui_MainWindow(object):
         item.setFont(font)
         item.setText(_translate("MainWindow", "Status:"))
         self.Text_status.setSortingEnabled(__sortingEnabled)
-        self.PB_Parse.setText(_translate("MainWindow", "Parse"))
-        
 
     def comboboxChanged(self, value):
         self.CB_SKUSelect.previous = self.CB_SKUSelect.current
@@ -389,9 +472,9 @@ class Ui_MainWindow(object):
             pass
         elif (self.CB_SKUSelect.previous == "OLxxx") and (
                 self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
-            for i in range(1,self.listWidget.count()):
+            for i in range(1, self.listWidget.count()):
                 self.listWidget.item(i).setHidden(True)
         elif (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (
                 self.CB_SKUSelect.current == "OLxxx"):
-           for i in range(1,self.listWidget.count()):
+            for i in range(1, self.listWidget.count()):
                 self.listWidget.item(i).setHidden(False)
