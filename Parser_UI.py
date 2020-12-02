@@ -238,7 +238,7 @@ class Ui_MainWindow(object):
         self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.addItem("")
-        self.CB_SKUSelect.currentTextChanged.connect(self.comboboxChanged)
+        # self.CB_SKUSelect.currentTextChanged.connect(self.comboboxChanged)
         self.CB_SKUSelect.setFixedHeight(60)
         self.gridLayout.addWidget(self.CB_SKUSelect, 1, 1, 1, 3)
 
@@ -464,17 +464,17 @@ class Ui_MainWindow(object):
         item.setText(_translate("MainWindow", "Status:"))
         self.Text_status.setSortingEnabled(__sortingEnabled)
 
-    def comboboxChanged(self, value):
-        self.CB_SKUSelect.previous = self.CB_SKUSelect.current
-        self.CB_SKUSelect.current = value
-        if (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (
-                self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
-            pass
-        elif (self.CB_SKUSelect.previous == "OLxxx") and (
-                self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
-            for i in range(1, self.listWidget.count()):
-                self.listWidget.item(i).setHidden(True)
-        elif (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (
-                self.CB_SKUSelect.current == "OLxxx"):
-            for i in range(1, self.listWidget.count()):
-                self.listWidget.item(i).setHidden(False)
+    # def comboboxChanged(self, value):
+    #     self.CB_SKUSelect.previous = self.CB_SKUSelect.current
+    #     self.CB_SKUSelect.current = value
+    #     if (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (
+    #             self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
+    #         pass
+    #     elif (self.CB_SKUSelect.previous == "OLxxx") and (
+    #             self.CB_SKUSelect.current == "CFPxxx" or self.CB_SKUSelect.current == "CMxxx"):
+    #         for i in range(1, self.listWidget.count()):
+    #             self.listWidget.item(i).setHidden(True)
+    #     elif (self.CB_SKUSelect.previous == "CFPxxx" or self.CB_SKUSelect.previous == "CMxxx") and (
+    #             self.CB_SKUSelect.current == "OLxxx"):
+    #         for i in range(1, self.listWidget.count()):
+    #             self.listWidget.item(i).setHidden(False)
