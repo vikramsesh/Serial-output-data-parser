@@ -73,6 +73,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.PB_Clear.clicked.connect(self.clearText)
         self.ui.PB_File.clicked.connect(self.addFiles)
 
+        #Combo box
+        self.ui.CB_SKUSelect.currentTextChanged.connect(self.comboboxChanged)
+
     def clearText(self):
 
         self.ui.Text_drop.links = set()
@@ -111,15 +114,25 @@ class MainWindow(QtWidgets.QMainWindow):
             font = QtGui.QFont()
             font.setPointSize(10)
             item.setFont(font)
-            if unformatted_files is not None:
-                if file not in unformatted_files:
-                    item.setText(str(file.split('/')[-1]) + ' - Complete')
-                    item.setForeground(Qt.green)
-                    self.ui.Text_status.addItem(item)
-                else:
-                    item.setText(str(file.split('/')[-1]) + ' - Error')
-                    item.setForeground(Qt.red)
-                    self.ui.Text_status.addItem(item)
+            if file not in unformatted_files:
+                item.setText(str(file.split('/')[-1]) + ' - Complete')
+                item.setForeground(Qt.green)
+                self.ui.Text_status.addItem(item)
+            else:
+                item.setText(str(file.split('/')[-1]) + ' - Error')
+                item.setForeground(Qt.red)
+                self.ui.Text_status.addItem(item)
+                
+    def comboboxChanged(self, value):
+        self.ui.CB_SKUSelect.previous = self.ui.CB_SKUSelect.current
+        self.ui.CB_SKUSelect.current = value
+        if (self.ui.CB_SKUSelect.previous == "OLxxx") and (
+                self.ui.CB_SKUSelect.current == "CFPxxx"):
+            for i in range(1, self.ui.listWidget.count()):
+                self.ui.listWidget.item(i).setHidden(True)
+        else:
+            for i in range(1, self.ui.listWidget.count()):
+                self.ui.listWidget.item(i).setHidden(False)
 
     def parse(self):
         selected_parser = self.ui.CB_SKUSelect.currentText()
@@ -143,9 +156,6 @@ class MainWindow(QtWidgets.QMainWindow):
             cfp_worker = Worker(CFP_P2_parse.parse, self.ui.Text_drop.links)
             cfp_worker.signals.result.connect(self.notifications)
             self.threadpool.start(cfp_worker)
-
-        else:
-            pass
 
 
 if __name__ == "__main__":
