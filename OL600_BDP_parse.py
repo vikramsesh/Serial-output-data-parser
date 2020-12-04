@@ -4,6 +4,11 @@ import os
 import sys
 import glob
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+
+from PyQt5 import QtWidgets, QtCore, QtGui
+
 HEADERS = ['Time (sec.)','HeatSink','AF NTC','PC NTC','Probe1 NTC',
            'Probe2 NTC', 'High Pressure','Low Pressure','V','SW version (Release.Version.Revision)','Build date']
 
@@ -63,7 +68,6 @@ def parse(Myfiles):
                     r = r[2] + ' ' + r[3] + ' ' + r[4] + ',' + r[0] + ' ' + r[1]
                     data[row] = r
     
-
         #print("Step2")
         #worksheet2 = workbook.add_worksheet('RAW')
 
@@ -119,7 +123,6 @@ def parse(Myfiles):
                     unformatted_files.add(myfile)
                     continue
 
-
         #Chart
         chart.add_series({
             'name': ['Data',0,1],
@@ -144,6 +147,92 @@ def parse(Myfiles):
                                     "Try to write file again? [Y/n]: " % e)
                 if decision != 'n':
                     continue
-
             break
     return unformatted_files
+
+class MplCanvas(FigureCanvasQTAgg):
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        super(MplCanvas, self).__init__(self.fig)
+
+class GraphWindow(QtWidgets.QWidget):
+    def __init__(self, data, path, checkboxes):
+        super().__init__()
+        self.resize(600,600)
+        qr = self.frameGeometry()
+        cp = QtWidgets.QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+        self.setObjectName("GraphWindow")
+
+        sc = self.graphOL(data,path, checkboxes)
+        layout = QtWidgets.QVBoxLayout()
+        toolbar = NavigationToolbar(sc, self)
+        layout.addWidget(toolbar)
+        layout.addWidget(sc)
+
+        self.setLayout(layout)
+        self.retranslateUi()
+
+    def graphOL(self,data,path, checkboxes):
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
+
+        try:
+            time = data['Time (sec.)'][1:]
+            heatsink = data['HeatSink'][1:]
+            af_ntc = data['AF NTC'][1:]
+            pc_ntc = data['PC NTC'][1:]
+            probe1_ntc = data['Probe1 NTC'][1:]
+            probe2_ntc = data['Probe2 NTC'][1:]
+            high_pressure = data['High Pressure'][1:]
+            low_pressure = data['Low Pressure'][1:]
+            SW_verision = data['SW version (Release.Version.Revision)'][1]
+            title = str(path).split('/')[-1] + ' - SWV: ' + str(SW_verision)
+            
+            sc.fig.suptitle(title)
+            plot1 = sc.fig.add_subplot(111, xlabel = 'Time (s)', ylabel = 'Temperature (C)')
+            
+            lines = []
+
+            if 'Heatsink (KN1)' in checkboxes:
+                line1, = plot1.plot(time, heatsink, label = 'HeatSink')
+                lines.append(line1)
+            if 'AF NTC (KN2)' in checkboxes:
+                line2, = plot1.plot(time, af_ntc, label = 'AF NTC')
+                lines.append(line2)
+            if 'PC NTC (KN3)' in checkboxes:    
+                line3, = plot1.plot(time, pc_ntc, label = 'PC NTC')
+                lines.append(line3)
+            if 'Probe1 NTC (KN4)' in checkboxes: 
+                line4, = plot1.plot(time, probe1_ntc, label = 'Probe1 NTC')
+                lines.append(line4)
+            if 'Probe2 NTC (KN5)' in checkboxes: 
+                line5, = plot1.plot(time, probe2_ntc, label = 'Probe2 NTC')
+                lines.append(line5)
+            
+            if 'Low Pressure Switch (SW1)' in checkboxes:
+                secax = plot1.twinx()
+                line7, = secax.plot(time, low_pressure, label = 'Low Prs Switch')
+                lines.append(line7)
+            
+            if 'High Pressure Switch (SW2)' in checkboxes:
+                secax = plot1.twinx()
+                line6, = secax.plot(time, high_pressure, label = 'High Prs Switch')
+                lines.append(line6)
+
+            labels = [l.get_label() for l in lines]
+            box = plot1.get_position()
+            plot1.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+            plot1.legend(lines, labels, loc='center left', bbox_to_anchor=(1.05, 0.5))
+            
+        except:
+            pass
+
+        return sc
+
+    def retranslateUi(self):
+        _translate = QtCore.QCoreApplication.translate
+        self.setWindowTitle(_translate("GraphWindow", "Graphs"))
+
+    
+
