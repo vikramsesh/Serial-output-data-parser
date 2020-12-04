@@ -10,6 +10,7 @@ November 11, 2020
 
 import os
 from easygui import fileopenbox
+import re
 
 # PLOTTING
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
@@ -44,6 +45,8 @@ class Worker(QtCore.QRunnable):
         result = self.fn(*self.args, **self.kwargs)
         self.signals.result.emit(result)
 
+
+
 class MplCanvas(FigureCanvasQTAgg):
 
     def __init__(self, parent=None, width=5, height=4, dpi=100):
@@ -64,7 +67,7 @@ class GraphWindow(QtWidgets.QWidget):
             sc = self.graphOL(data)
         else:
             sc = self.graphCFP(data)
-        
+
         layout = QtWidgets.QVBoxLayout()
         toolbar = NavigationToolbar(sc, self)
 
@@ -110,7 +113,6 @@ class GraphWindow(QtWidgets.QWidget):
         sc = MplCanvas(self, width=5, height=4, dpi=100)
         time = data['Time'][1:]
         outlet_temp = data['Outlet Temp'][1:]
-        print(outlet_temp)
         boiler_temp = data['Boiler Temp'][1:]
         warm_plate_temp = data['Warm Plate Temp'][1:]
         pump_pwm = data['Pump PWM'][1:]
@@ -121,7 +123,6 @@ class GraphWindow(QtWidgets.QWidget):
         current_block_volume = data['Current Block Volume'][1:]
         current_total_volume = data['Current Total Volume'][1:]
         recipe_total_volume = data['Recipe Total Volume'][1:]  
-
         try:
             plot1 = sc.fig.add_subplot(311)
             plot1.plot(time, outlet_temp)
@@ -208,7 +209,12 @@ class MainWindow(QtWidgets.QMainWindow):
         files = fileopenbox(multiple=True)
         if files is not None:
             for file in files:
+                pattern = r'(\\)'
+                file = re.sub(pattern, '/', file)
+                print(file)
+
                 self.ui.Text_drop.addItem(file)
+                self.ui.Text_drop.links.add(str(file))
     
     def noFilesAdded(self):
         error = QMessageBox()
@@ -228,7 +234,7 @@ class MainWindow(QtWidgets.QMainWindow):
             graphWindow = GraphWindow(data, self.ui.CB_SKUSelect.current)
             self.graphWindows.append(graphWindow)
             graphWindow.show()
-            
+
     def fileStatus(self, unformatted_files):
         for file in self.ui.Text_drop.links:
             item = QtWidgets.QListWidgetItem()
