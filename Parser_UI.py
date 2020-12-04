@@ -58,7 +58,7 @@ class ListBoxWidget(QListWidget):
         else:
             event.ignore()
 
-
+     
 class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
