@@ -127,16 +127,19 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fileStatus(unformatted_files)
         self.graphs()
     
+    def checkboxes(self):
+        checkboxes = set()
+        for i in range(self.ui.listWidget.count()):
+            if self.ui.listWidget.item(i).checkState():
+                checkboxes.add(self.ui.listWidget.item(i).text())
+        return checkboxes
+
     def graphs(self):
         for path in self.ui.Text_drop.links:
             path = os.path.splitext(path)[0]+'.xlsx'
             data = pd.read_excel(path)
             if self.ui.CB_SKUSelect.current == "OLxxx":
-                checkboxes = set()
-                for i in range(self.ui.listWidget.count()):
-                    if self.ui.listWidget.item(i).checkState():
-                        checkboxes.add(self.ui.listWidget.item(i).text())
-
+                checkboxes = self.checkboxes()
                 graphWindow = OL600_BDP_parse.GraphWindow(data, path, checkboxes) 
             else:
                 graphWindow = CFP_P2_parse.GraphWindow(data, path)
@@ -184,7 +187,8 @@ class MainWindow(QtWidgets.QMainWindow):
             self.noFilesAdded()
 
         if selected_parser == 'OLxxx':
-            ol_worker = Worker(OL600_BDP_parse.parse, self.ui.Text_drop.links)
+            checkboxes = self.checkboxes()
+            ol_worker = Worker(OL600_BDP_parse.parse, self.ui.Text_drop.links, checkboxes)
             ol_worker.signals.result.connect(self.notifications)
             self.threadpool.start(ol_worker)
 

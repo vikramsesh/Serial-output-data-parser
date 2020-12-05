@@ -125,7 +125,15 @@ def parse(Myfiles):
                         except:
                             pass
 
-                #print(data)
+            worksheet = workbook.add_worksheet('Graph')
+            finalRow = len(entries) - 1
+            chart1, chart2, chart3, chart4 = excelGraph(workbook, finalRow)
+            worksheet.insert_chart('A1', chart1)
+            worksheet.insert_chart('A21', chart2)
+            worksheet.insert_chart('N1', chart3)
+            worksheet.insert_chart('N21', chart4)
+            
+
             closeworkbook(workbook)
         
         except KeyboardInterrupt as e:
@@ -134,6 +142,92 @@ def parse(Myfiles):
         except:
             continue
     return unformatted_files
+
+def excelGraph(workbook, finalRow):
+    chart1 = workbook.add_chart({'type': 'line'})
+    chart2 = workbook.add_chart({'type': 'line'})
+    chart3 = workbook.add_chart({'type': 'line'})
+    chart4 = workbook.add_chart({'type': 'line'})
+    try:
+        chart1.add_series({
+        'name' : 'Outlet Temp',
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 1, finalRow, 1], 
+        })
+        chart1.add_series({
+        'name' : 'Boiler Temp' ,
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 2, finalRow, 2], 
+        })
+        chart1.add_series({
+        'name' : 'Warmplate Temp' ,
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 3, finalRow, 3], 
+        })
+
+        chart2.add_series({
+        'name' : 'Boiler ON',
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 7, finalRow, 7], 
+        })
+        chart2.add_series({
+        'name' : 'PTC ON' ,
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 8, finalRow, 8], 
+        })
+        chart2.add_series({
+        'name' : 'Recipe Block' ,
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 15, finalRow, 15], 
+        })
+
+        chart3.add_series({
+        'name' : 'Current Block Volume',
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 10, finalRow, 10], 
+        })
+        chart3.add_series({
+        'name' : 'Current Total Volume' ,
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 11, finalRow, 11], 
+        })
+        chart3.add_series({
+        'name' : 'Recipe Total Block' ,
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 16, finalRow, 16], 
+        })
+
+        chart4.add_series({
+        'name' : 'Pump PWM',
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 6, finalRow, 6], 
+        })
+        chart4.add_series({
+        'name' : 'Flow Rate' ,
+        'categories': ['Data', 1, 0, finalRow, 0], 
+        'values': ['Data', 1, 9, finalRow, 9], 
+        })
+
+    except:
+        pass
+
+    # Configure the chart axes.
+    chart1.set_y_axis({'name' : 'Temperature (C)', 'interval_unit' : 50})
+    chart1.set_x_axis({'name': 'Time (s)', 'interval_unit': 10000})
+    chart1.set_size({'width': 750, 'height' : 400})
+
+    chart2.set_y_axis({'name' : ' ', 'interval_unit' : 2})
+    chart2.set_x_axis({'name': 'Time (s)', 'interval_unit': 10000})
+    chart2.set_size({'width': 750, 'height' : 400})
+
+    chart3.set_y_axis({'name' : 'Volume (mL)', 'interval_unit' : 500})
+    chart3.set_x_axis({'name': 'Time (s)', 'interval_unit': 10000})
+    chart3.set_size({'width': 750, 'height' : 400})
+
+    chart4.set_y_axis({'name' : 'Pump Plates', 'interval_unit' : 200})
+    chart4.set_x_axis({'name': 'Time (s)', 'interval_unit': 10000})
+    chart4.set_size({'width': 750, 'height' : 400})
+    return chart1, chart2, chart3, chart4
 
 class MplCanvas(FigureCanvasQTAgg):
     def __init__(self, parent=None, width=5, height=4, dpi=100):
