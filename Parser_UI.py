@@ -14,7 +14,6 @@ from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
-
 class ComboBox(QComboBox):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -60,7 +59,6 @@ class ListBoxWidget(QListWidget):
 
 
 class Ui_MainWindow(object):
-
     def setupUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setObjectName("MainWindow")
@@ -139,57 +137,6 @@ class Ui_MainWindow(object):
         self.listWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.listWidget.setObjectName("listwidget")
 
-        self.listWidget.horizontalScrollBar().setStyleSheet("QScrollBar"
-                                                            "{"
-                                                            "height:8px;"
-                                                            "background:solid white;"
-                                                            "border-radius:0px;"
-                                                            "}"
-                                                            "QScrollBar::handle"
-                                                            "{"
-                                                            "background:#673AB7;"
-                                                            "border-radius:5px;"
-                                                            "height:5px"
-                                                            "}"
-                                                            "QScrollBar::add-line:horizontal"
-                                                            "{"
-                                                            "border:none;"
-                                                            "background:none;"
-                                                            "color:none;"
-                                                            "}"
-                                                            "QScrollBar::sub-line:horizontal"
-                                                            "{"
-                                                            "border:none;"
-                                                            "background:none;"
-                                                            "color:none;"
-                                                            "}"
-                                                            )
-
-        self.listWidget.verticalScrollBar().setStyleSheet("QScrollBar"
-                                                          "{"
-                                                          "width:5px;"
-                                                          "background:transparent;"
-                                                          "border-radius:50px;"
-                                                          "}"
-                                                          "QScrollBar::handle"
-                                                          "{"
-                                                          "background : #C38FFF;"
-                                                          "border-radius:10px;"
-                                                          "}"
-                                                          "QScrollBar::add-line:vertical"
-                                                          "{"
-                                                          "border:none;"
-                                                          "background:none;"
-                                                          "color:none;"
-                                                          "}"
-                                                          "QScrollBar::sub-line:vertical"
-                                                          "{"
-                                                          "border:none;"
-                                                          "background:none;"
-                                                          "color:none;"
-                                                          "}"
-                                                          )
-
         self.gridLayout.addWidget(self.listWidget, 2, 4, 4, 3)
 
         # Drop down combo button
@@ -230,7 +177,6 @@ class Ui_MainWindow(object):
                                         "border-color: #1E1E1E;"
                                         "width:22px;"
                                         "height:25px;"
-                                        "border-width-right:20px;"
                                         "}"
                                         )
         self.CB_SKUSelect.setObjectName("CB_SKUSelect")

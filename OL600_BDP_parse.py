@@ -4,19 +4,21 @@ import os
 import sys
 import glob
 
+from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.figure import Figure
+
+from PyQt5 import QtWidgets, QtCore, QtGui
+
 HEADERS = ['Time (sec.)','HeatSink','AF NTC','PC NTC','Probe1 NTC',
            'Probe2 NTC', 'High Pressure','Low Pressure','V','SW version (Release.Version.Revision)','Build date']
 
-def parse(Myfiles):
+def parse(Myfiles, checkboxes):
     unformatted_files = set()
     for myfile in Myfiles:
-
-        workbook = xlsxwriter.Workbook(os.path.splitext(myfile)[0]+'.xlsx')
+        filename = os.path.splitext(myfile)[0]+'.xlsx'
+        workbook = xlsxwriter.Workbook(filename)
         worksheet = workbook.add_worksheet('Data')
         worksheet.freeze_panes(1, 0)
-
-        # Create a chart object.
-        chart = workbook.add_chart({'type': 'line'})
 
         f = open(myfile, encoding="utf8", errors="ignore")
         data = f.read()
@@ -63,7 +65,6 @@ def parse(Myfiles):
                     r = r[2] + ' ' + r[3] + ' ' + r[4] + ',' + r[0] + ' ' + r[1]
                     data[row] = r
     
-
         #print("Step2")
         #worksheet2 = workbook.add_worksheet('RAW')
 
@@ -118,24 +119,14 @@ def parse(Myfiles):
                 except:
                     unformatted_files.add(myfile)
                     continue
-
-
-        #Chart
-        chart.add_series({
-            'name': ['Data',0,1],
-            'values':     '=Data!$B2:$B3159',
-        })
-
-        # Configure the chart axes.
-        chart.set_y_axis({'major_gridlines': {'visible': True}})
-        chart.set_x_axis({'name': 'Time (sec.)'})
-
-        # Turn off chart legend. It is on by default in Excel.
-        chart.set_legend({'position': 'none'})
+        
+        worksheet = workbook.add_worksheet('Graph')
+        finalRow = len(data) - 1
+        chart = excelGraph(workbook, finalRow, checkboxes)
 
         while True:
             try:
-                worksheet.insert_chart('L2', chart)
+                worksheet.insert_chart('A1', chart)
                 workbook.close()
             except xlsxwriter.exceptions.FileCreateError as e:
                 # For Python 2 use raw_input() instead of input().
@@ -144,6 +135,160 @@ def parse(Myfiles):
                                     "Try to write file again? [Y/n]: " % e)
                 if decision != 'n':
                     continue
-
             break
     return unformatted_files
+
+def excelGraph(workbook, finalRow, checkboxes):
+    
+    try:
+        chart = workbook.add_chart({'type': 'line'})
+        if 'Heatsink (KN1)' in checkboxes:
+            chart.add_series({
+            'name' : 'HeatSink',
+            'categories': ['Data', 1, 0, finalRow, 0], 
+            'values': ['Data', 1, 1, finalRow, 1], 
+            })
+        if 'AF NTC (KN2)' in checkboxes:
+            chart.add_series({
+            'name' : 'AF NTC' ,
+            'categories': ['Data', 1, 0, finalRow, 0], 
+            'values': ['Data', 1, 2, finalRow, 2], 
+            })
+        if 'PC NTC (KN3)' in checkboxes:    
+            chart.add_series({
+            'name' : 'PC NTC',
+            'categories': ['Data', 1, 0, finalRow, 0], 
+            'values': ['Data', 1, 3, finalRow, 3], 
+            })
+        if 'Probe1 NTC (KN4)' in checkboxes: 
+            chart.add_series({
+            'name' : 'Probe1 NTC',
+            'categories': ['Data', 1, 0, finalRow, 0], 
+            'values': ['Data', 1, 4, finalRow, 4], 
+            })
+        if 'Probe2 NTC (KN5)' in checkboxes: 
+            chart.add_series({
+            'name' : 'Probe2 NTC',
+            'categories': ['Data', 1, 0, finalRow, 0], 
+            'values': ['Data', 1, 5, finalRow, 5], 
+            })
+            
+        if 'Low Pressure Switch (SW1)' in checkboxes or 'High Pressure Switch (SW2)' in checkboxes:
+            chart.set_y2_axis({'name' : ' ', 'interval_unit' : 0.2})
+
+        if 'Low Pressure Switch (SW1)' in checkboxes:
+            chart.add_series({
+            'name' : 'High Prs Switch',
+            'categories': ['Data', 1, 0, finalRow, 0], 
+            'values': ['Data', 1, 6, finalRow, 6], 
+            'y2_axis' : 1,
+            })
+            
+        if 'High Pressure Switch (SW2)' in checkboxes:
+            chart.add_series({
+            'name' : 'Low Prs Switch',
+            'categories': ['Data', 1, 0, finalRow, 0], 
+            'values': ['Data', 1, 7, finalRow, 7], 
+            'y2_axis' : 1,
+            })
+        
+    except:
+        pass
+
+    # Configure the chart axes.
+    chart.set_y_axis({'name' : 'Temperature (C)', 'interval_unit' : 50})
+    chart.set_x_axis({'name': 'Time (s)', 'interval_unit': 1000})
+    chart.set_size({'width': 750, 'height' : 500})
+
+    return chart
+
+class MplCanvas(FigureCanvasQTAgg):
+    def __init__(self, parent=None, width=5, height=4, dpi=100):
+        self.fig = Figure(figsize=(width, height), dpi=dpi)
+        super(MplCanvas, self).__init__(self.fig)
+
+class GraphWindow(QtWidgets.QWidget):
+    def __init__(self, data, path, checkboxes):
+        super().__init__()
+        self.resize(750,500)
+        qr = self.frameGeometry()
+        cp = QtWidgets.QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
+        self.setObjectName("GraphWindow")
+
+        sc = self.graphOL(data,path, checkboxes)
+        layout = QtWidgets.QVBoxLayout()
+        toolbar = NavigationToolbar(sc, self)
+        layout.addWidget(toolbar)
+        layout.addWidget(sc)
+
+        self.setLayout(layout)
+        self.retranslateUi()
+
+    def graphOL(self,data,path, checkboxes):
+        sc = MplCanvas(self, width=5, height=4, dpi=100)
+
+        try:
+            time = data['Time (sec.)'][1:]
+            heatsink = data['HeatSink'][1:]
+            af_ntc = data['AF NTC'][1:]
+            pc_ntc = data['PC NTC'][1:]
+            probe1_ntc = data['Probe1 NTC'][1:]
+            probe2_ntc = data['Probe2 NTC'][1:]
+            high_pressure = data['High Pressure'][1:]
+            low_pressure = data['Low Pressure'][1:]
+            SW_verision = data['SW version (Release.Version.Revision)'][1]
+            title = str(path).split('/')[-1] + ' - SWV: ' + str(SW_verision)
+            
+            sc.fig.suptitle(title)
+            plot1 = sc.fig.add_subplot(111, xlabel = 'Time (s)', ylabel = 'Temperature (C)')
+            plot1, lines = self.graphOLHelper(checkboxes, plot1, time, heatsink, af_ntc, pc_ntc, probe1_ntc, probe2_ntc, high_pressure, low_pressure)
+            labels = [l.get_label() for l in lines]
+            box = plot1.get_position()
+            plot1.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+            plot1.legend(lines, labels, loc='center left', bbox_to_anchor=(1.05, 0.5))
+            
+        except:
+            pass
+
+        return sc
+    
+    def graphOLHelper(self,checkboxes, plot1, time, heatsink, af_ntc, pc_ntc, probe1_ntc, probe2_ntc, high_pressure, low_pressure):
+        lines = []
+
+        if 'Heatsink (KN1)' in checkboxes:
+            line1, = plot1.plot(time, heatsink, label = 'HeatSink')
+            lines.append(line1)
+        if 'AF NTC (KN2)' in checkboxes:
+            line2, = plot1.plot(time, af_ntc, label = 'AF NTC')
+            lines.append(line2)
+        if 'PC NTC (KN3)' in checkboxes:    
+            line3, = plot1.plot(time, pc_ntc, label = 'PC NTC')
+            lines.append(line3)
+        if 'Probe1 NTC (KN4)' in checkboxes: 
+            line4, = plot1.plot(time, probe1_ntc, label = 'Probe1 NTC')
+            lines.append(line4)
+        if 'Probe2 NTC (KN5)' in checkboxes: 
+            line5, = plot1.plot(time, probe2_ntc, label = 'Probe2 NTC')
+            lines.append(line5)
+            
+        if 'Low Pressure Switch (SW1)' in checkboxes or 'High Pressure Switch (SW2)' in checkboxes:
+            secax = plot1.twinx()
+
+        if 'Low Pressure Switch (SW1)' in checkboxes:
+            line7, = secax.plot(time, low_pressure, label = 'Low Prs Switch')
+            lines.append(line7)
+            
+        if 'High Pressure Switch (SW2)' in checkboxes:
+            line6, = secax.plot(time, high_pressure, label = 'High Prs Switch')
+            lines.append(line6)
+            
+        return plot1, lines
+
+    def retranslateUi(self):
+        _translate = QtCore.QCoreApplication.translate
+        self.setWindowTitle(_translate("GraphWindow", "Graphs"))
+
+    
+
