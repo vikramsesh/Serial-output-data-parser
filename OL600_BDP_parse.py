@@ -9,198 +9,197 @@ from matplotlib.figure import Figure
 
 from PyQt5 import QtWidgets, QtCore, QtGui
 
-HEADERS = ['Time (sec.)','HeatSink','AF NTC','PC NTC','Probe1 NTC',
-           'Probe2 NTC', 'High Pressure','Low Pressure','V','SW version (Release.Version.Revision)','Build date']
+class OL():
+    def __init__(self):
+        self.HEADERS = ['Time (sec.)','HeatSink','AF NTC','PC NTC','Probe1 NTC', 'Probe2 NTC', 'High Pressure',
+                        'Low Pressure','V','SW version (Release.Version.Revision)','Build date']
 
-def parse(Myfiles, checkboxes):
-    unformatted_files = set()
-    for myfile in Myfiles:
-        filename = os.path.splitext(myfile)[0]+'.xlsx'
-        workbook = xlsxwriter.Workbook(filename)
-        worksheet = workbook.add_worksheet('Data')
-        worksheet.freeze_panes(1, 0)
+    def parse(self, Myfiles, checkboxes):
+        unformatted_files = set()
 
-        f = open(myfile, encoding="utf8", errors="ignore")
-        data = f.read()
+        for myfile in Myfiles:
+            filename = os.path.splitext(myfile)[0]+'.xlsx'
+            workbook = xlsxwriter.Workbook(filename)
+            worksheet = workbook.add_worksheet('Data')
+            worksheet.freeze_panes(1, 0)
+
+            f = open(myfile, encoding="utf8", errors="ignore")
+            data = f.read()
+            
+            pattern = r'(\?KN1\n)'
+            pattern1 = r'(\n\[[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9].[0-9]{3}\] )'
+            pattern2 = r'(\n\?KN2\n)'
+            pattern3 = r'(\n\?KN3\n)'
+            pattern4 = r'(\n\?KN4\n)'
+            pattern5 = r'(\n\?KN5\n)'
+            pattern6 = r'(\n\?SW2\n)'
+            pattern7 = r'(\n\?SW1\n)'
+            pattern8 = r'(\n\?WZ\n)'
+
+            try:
+                data = re.sub(pattern, '', data)
+                data = re.sub(pattern1, '\n', data)
+                data = re.sub(pattern2, ',', data)
+                data = re.sub(pattern3, ',', data)
+                data = re.sub(pattern4, ',', data)
+                data = re.sub(pattern5, ',', data)
+                data = re.sub(pattern6, ',', data)
+                data = re.sub(pattern7, ',', data)
+                data = re.sub(pattern8, ',', data)   
+            except:
+                pass
+            
+            data = data.split('\n')
+            data.remove(data[0])
+            data.remove(data[0])
+            data.remove(data[len(data)-1])
+            data.remove(data[len(data)-1])
+            data.remove(data[len(data)-1])
+            
+            # Rearrange if there's a timestamp
+            pattern = r'(\[[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9].[0-9]{3}\])'
+            match = re.search(pattern,data[0])
+            
+            if match:
+                for row in range(len(data)):
+                    r = data[row].split(' ')
+                    
+                    if len(r) == 6:
+                        r = r[2] + ' ' + r[3] + ' ' + r[4] + ',' + r[0] + ' ' + r[1]
+                        data[row] = r
+
+            # Header format
+            header_format = workbook.add_format()
+            header_format.set_align('center')
+            header_format.set_bold()
+            header_format.set_text_wrap()
+            header_format.set_align('vcenter')
+
+            # Cell format
+            cell_format = workbook.add_format()
+            cell_format.set_align('center')
+
+            for index, i in enumerate(self.HEADERS):
+                worksheet.write(0, index, i,header_format)
+
+            # Convert serial data
+            for row in range (0,len(data)):
+                cell = data[row].split(',')
+
+                for col in range (0,len(cell)):
+
+                    try:
+                        worksheet.write(row+1, col+len(self.HEADERS)+1, cell[col],cell_format)
+                        if col<5:
+                            convert_cell = int(cell[col][5:],16)/10
+                        elif col>=5 and col<7:
+                            convert_cell = int(cell[col][4:])
+                        elif col == 7:
+                            convert_cell = ''
+
+                        #match SW version BDP                        
+                        x = re.match(r'(\$WZ)(..)(..)(..)(\w+........)',cell[col])
+
+                        if x:
+                            SW_version = x.group(2)+'.'+ x.group(3)+'.'+x.group(4)
+                            worksheet.write(row+1, col+2, SW_version,cell_format)
+                            worksheet.write(row+1, col+3, x.group(5),cell_format)   
+                        else:
+                            pass
+                        
+                        #time
+                        worksheet.write(row+1, 0, row+1,cell_format)
+                        #Columns
+                        if col < 8:
+                            worksheet.write(row+1, col+1, convert_cell,cell_format)
+
+                    except:
+                        unformatted_files.add(myfile)
+                        continue
+            
+            # Graphs
+            worksheet = workbook.add_worksheet('Graph')
+            finalRow = len(data) - 1
+            chart = self.excelGraph(workbook, finalRow, checkboxes)
+
+            while True:
+                try:
+                    worksheet.insert_chart('A1', chart)
+                    workbook.close()
+                except xlsxwriter.exceptions.FileCreateError as e:
+                    # For Python 2 use raw_input() instead of input().
+                    decision = input("Exception caught in workbook.close(): %s\n"
+                                        "Please close the file if it is open in Excel.\n"
+                                        "Try to write file again? [Y/n]: " % e)
+                    if decision != 'n':
+                        continue
+                break
+            
+        return unformatted_files
+
+    def excelGraph(self, workbook, finalRow, checkboxes):
         
-        pattern = r'(\?KN1\n)'
-        pattern1 = r'(\n\[[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9].[0-9]{3}\] )'
-        pattern2 = r'(\n\?KN2\n)'
-        pattern3 = r'(\n\?KN3\n)'
-        pattern4 = r'(\n\?KN4\n)'
-        pattern5 = r'(\n\?KN5\n)'
-        pattern6 = r'(\n\?SW2\n)'
-        pattern7 = r'(\n\?SW1\n)'
-        pattern8 = r'(\n\?WZ\n)'
-
         try:
-            data = re.sub(pattern, '', data)
-            data = re.sub(pattern1, '\n', data)
-            data = re.sub(pattern2, ',', data)
-            data = re.sub(pattern3, ',', data)
-            data = re.sub(pattern4, ',', data)
-            data = re.sub(pattern5, ',', data)
-            data = re.sub(pattern6, ',', data)
-            data = re.sub(pattern7, ',', data)
-            data = re.sub(pattern8, ',', data)   
+            chart = workbook.add_chart({'type': 'line'})
+            if 'Heatsink (KN1)' in checkboxes:
+                chart.add_series({
+                'name' : 'HeatSink',
+                'categories': ['Data', 1, 0, finalRow, 0], 
+                'values': ['Data', 1, 1, finalRow, 1], 
+                })
+            if 'AF NTC (KN2)' in checkboxes:
+                chart.add_series({
+                'name' : 'AF NTC' ,
+                'categories': ['Data', 1, 0, finalRow, 0], 
+                'values': ['Data', 1, 2, finalRow, 2], 
+                })
+            if 'PC NTC (KN3)' in checkboxes:    
+                chart.add_series({
+                'name' : 'PC NTC',
+                'categories': ['Data', 1, 0, finalRow, 0], 
+                'values': ['Data', 1, 3, finalRow, 3], 
+                })
+            if 'Probe1 NTC (KN4)' in checkboxes: 
+                chart.add_series({
+                'name' : 'Probe1 NTC',
+                'categories': ['Data', 1, 0, finalRow, 0], 
+                'values': ['Data', 1, 4, finalRow, 4], 
+                })
+            if 'Probe2 NTC (KN5)' in checkboxes: 
+                chart.add_series({
+                'name' : 'Probe2 NTC',
+                'categories': ['Data', 1, 0, finalRow, 0], 
+                'values': ['Data', 1, 5, finalRow, 5], 
+                })
+                
+            if 'Low Pressure Switch (SW1)' in checkboxes or 'High Pressure Switch (SW2)' in checkboxes:
+                chart.set_y2_axis({'name' : ' ', 'interval_unit' : 0.2})
+
+            if 'Low Pressure Switch (SW1)' in checkboxes:
+                chart.add_series({
+                'name' : 'High Prs Switch',
+                'categories': ['Data', 1, 0, finalRow, 0], 
+                'values': ['Data', 1, 6, finalRow, 6], 
+                'y2_axis' : 1,
+                })
+                
+            if 'High Pressure Switch (SW2)' in checkboxes:
+                chart.add_series({
+                'name' : 'Low Prs Switch',
+                'categories': ['Data', 1, 0, finalRow, 0], 
+                'values': ['Data', 1, 7, finalRow, 7], 
+                'y2_axis' : 1,
+                })
+            
         except:
             pass
-        
-        data = data.split('\n')
-        data.remove(data[0])
-        data.remove(data[0])
-        data.remove(data[len(data)-1])
-        data.remove(data[len(data)-1])
-        data.remove(data[len(data)-1])
-        
-        # Rearrange if there's a timestamp
-        pattern = r'(\[[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[0-5][0-9].[0-9]{3}\])'
-        match = re.search(pattern,data[0])
-        
-        if match:
-            for row in range(len(data)):
-                r = data[row].split(' ')
-                
-                if len(r) == 6:
-                    r = r[2] + ' ' + r[3] + ' ' + r[4] + ',' + r[0] + ' ' + r[1]
-                    data[row] = r
-    
-        #print("Step2")
-        #worksheet2 = workbook.add_worksheet('RAW')
 
-        header_format = workbook.add_format()
-        header_format.set_align('center')
-        header_format.set_bold()
-        header_format.set_text_wrap()
-        header_format.set_align('vcenter')
+        # Configure the chart axes.
+        chart.set_y_axis({'name' : 'Temperature (C)', 'interval_unit' : 50})
+        chart.set_x_axis({'name': 'Time (s)', 'interval_unit': 1000})
+        chart.set_size({'width': 750, 'height' : 500})
 
-        cell_format = workbook.add_format()
-        cell_format.set_align('center')
-        ##cell_format.set_text_wrap()
-
-        for index, i in enumerate(HEADERS):
-            worksheet.write(0, index, i,header_format)
-
-        #print("Step3")
-        
-        for row in range (0,len(data)):
-            cell = data[row].split(',')
-
-            #print("Step4")
-            for col in range (0,len(cell)):
-                try:
-                    worksheet.write(row+1, col+len(HEADERS)+1, cell[col],cell_format)
-                    if col<5:
-                        convert_cell = int(cell[col][5:],16)/10
-                    #print("Step5")
-                    elif col>=5 and col<7:
-                        convert_cell = int(cell[col][4:])
-                    elif col == 7:
-                        convert_cell = ''
-
-                    #match SW version BDP                        
-                    x = re.match(r'(\$WZ)(..)(..)(..)(\w+........)',cell[col])
-                    #print("Step6")
-                    if x:
-                        SW_version = x.group(2)+'.'+ x.group(3)+'.'+x.group(4)
-                        worksheet.write(row+1, col+2, SW_version,cell_format)
-                        worksheet.write(row+1, col+3, x.group(5),cell_format)   
-                    #print("Step7")
-                    else:
-                        pass
-                    
-                     #time
-                    worksheet.write(row+1, 0, row+1,cell_format)
-                     #Columns
-                    if col < 8:
-                        worksheet.write(row+1, col+1, convert_cell,cell_format)
-
-                #print("Step8")
-                except:
-                    unformatted_files.add(myfile)
-                    continue
-        
-        worksheet = workbook.add_worksheet('Graph')
-        finalRow = len(data) - 1
-        chart = excelGraph(workbook, finalRow, checkboxes)
-
-        while True:
-            try:
-                worksheet.insert_chart('A1', chart)
-                workbook.close()
-            except xlsxwriter.exceptions.FileCreateError as e:
-                # For Python 2 use raw_input() instead of input().
-                decision = input("Exception caught in workbook.close(): %s\n"
-                                    "Please close the file if it is open in Excel.\n"
-                                    "Try to write file again? [Y/n]: " % e)
-                if decision != 'n':
-                    continue
-            break
-    return unformatted_files
-
-def excelGraph(workbook, finalRow, checkboxes):
-    
-    try:
-        chart = workbook.add_chart({'type': 'line'})
-        if 'Heatsink (KN1)' in checkboxes:
-            chart.add_series({
-            'name' : 'HeatSink',
-            'categories': ['Data', 1, 0, finalRow, 0], 
-            'values': ['Data', 1, 1, finalRow, 1], 
-            })
-        if 'AF NTC (KN2)' in checkboxes:
-            chart.add_series({
-            'name' : 'AF NTC' ,
-            'categories': ['Data', 1, 0, finalRow, 0], 
-            'values': ['Data', 1, 2, finalRow, 2], 
-            })
-        if 'PC NTC (KN3)' in checkboxes:    
-            chart.add_series({
-            'name' : 'PC NTC',
-            'categories': ['Data', 1, 0, finalRow, 0], 
-            'values': ['Data', 1, 3, finalRow, 3], 
-            })
-        if 'Probe1 NTC (KN4)' in checkboxes: 
-            chart.add_series({
-            'name' : 'Probe1 NTC',
-            'categories': ['Data', 1, 0, finalRow, 0], 
-            'values': ['Data', 1, 4, finalRow, 4], 
-            })
-        if 'Probe2 NTC (KN5)' in checkboxes: 
-            chart.add_series({
-            'name' : 'Probe2 NTC',
-            'categories': ['Data', 1, 0, finalRow, 0], 
-            'values': ['Data', 1, 5, finalRow, 5], 
-            })
-            
-        if 'Low Pressure Switch (SW1)' in checkboxes or 'High Pressure Switch (SW2)' in checkboxes:
-            chart.set_y2_axis({'name' : ' ', 'interval_unit' : 0.2})
-
-        if 'Low Pressure Switch (SW1)' in checkboxes:
-            chart.add_series({
-            'name' : 'High Prs Switch',
-            'categories': ['Data', 1, 0, finalRow, 0], 
-            'values': ['Data', 1, 6, finalRow, 6], 
-            'y2_axis' : 1,
-            })
-            
-        if 'High Pressure Switch (SW2)' in checkboxes:
-            chart.add_series({
-            'name' : 'Low Prs Switch',
-            'categories': ['Data', 1, 0, finalRow, 0], 
-            'values': ['Data', 1, 7, finalRow, 7], 
-            'y2_axis' : 1,
-            })
-        
-    except:
-        pass
-
-    # Configure the chart axes.
-    chart.set_y_axis({'name' : 'Temperature (C)', 'interval_unit' : 50})
-    chart.set_x_axis({'name': 'Time (s)', 'interval_unit': 1000})
-    chart.set_size({'width': 750, 'height' : 500})
-
-    return chart
+        return chart
 
 class MplCanvas(FigureCanvasQTAgg):
     def __init__(self, parent=None, width=5, height=4, dpi=100):

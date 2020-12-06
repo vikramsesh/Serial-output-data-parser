@@ -95,6 +95,12 @@ class MainWindow(QtWidgets.QMainWindow):
                                        "padding-right: 10px;"
                                        )
 
+    def noFilesAdded(self):
+        error = QMessageBox()
+        error.setText("Error! No files available to parse!")
+        error.setIcon(QMessageBox.Critical)
+        error.exec()
+    
     def addFiles(self):
         files = fileopenbox(multiple=True)
         if files is not None:
@@ -104,12 +110,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
                 self.ui.Text_drop.addItem(file)
                 self.ui.Text_drop.links.add(str(file))
-    
-    def noFilesAdded(self):
-        error = QMessageBox()
-        error.setText("Error! No files available to parse!")
-        error.setIcon(QMessageBox.Critical)
-        error.exec()
 
     def notifications(self, unformatted_files):
         self.ui.CB_SKUSelect.setEnabled(True)
@@ -188,14 +188,16 @@ class MainWindow(QtWidgets.QMainWindow):
 
         if selected_parser == 'OLxxx':
             checkboxes = self.checkboxes()
-            ol_worker = Worker(OL600_BDP_parse.parse, self.ui.Text_drop.links, checkboxes)
-            ol_worker.signals.result.connect(self.notifications)
-            self.threadpool.start(ol_worker)
+            OL = OL600_BDP_parse.OL()
+            OL_worker = Worker(OL.parse, self.ui.Text_drop.links, checkboxes)
+            OL_worker.signals.result.connect(self.notifications)
+            self.threadpool.start(OL_worker)
 
         elif selected_parser == 'CFPxxx':
-            cfp_worker = Worker(CFP_P2_parse.parse, self.ui.Text_drop.links)
-            cfp_worker.signals.result.connect(self.notifications)
-            self.threadpool.start(cfp_worker)
+            CFP = CFP_P2_parse.CFP()
+            CFP_worker = Worker(CFP.parse, self.ui.Text_drop.links)
+            CFP_worker.signals.result.connect(self.notifications)
+            self.threadpool.start(CFP_worker)
 
 
 if __name__ == "__main__":

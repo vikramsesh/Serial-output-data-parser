@@ -326,7 +326,7 @@ class Ui_MainWindow(object):
         self.Text_drop.addItem(item)
         self.gridLayout.addWidget(self.Text_drop, 2, 1, 2, 3)
 
-        self.Text_status = ListBoxWidget(self.centralwidget)
+        self.Text_status = QtWidgets.QListWidget(self.centralwidget)
         self.Text_status.setStyleSheet("background-color: #2C2C2C;"
                                        "border-style:outset;"
                                        "border-radius:5px;"
