@@ -15,7 +15,7 @@ Parsing and Analyzing serial data from products to better understand performance
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]][https://github.com/vikramsesh/Serial-output-data-parser/graphs/contributors]
+[![Contributors][contributors-shield]]: https://github.com/vikramsesh/Serial-output-data-parser/graphs/contributors
 [![Forks][forks-shield]][https://github.com/vikramsesh/Serial-output-data-parser/network/members]
 [![Stargazers][stars-shield]][https://github.com/vikramsesh/Serial-output-data-parser/stargazers]
 [![Issues][issues-shield]][https://github.com/vikramsesh/Serial-output-data-parser/issues]
