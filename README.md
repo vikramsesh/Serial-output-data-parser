@@ -1,5 +1,5 @@
-# Serial-output-data-parser
-Parsing and Analyzing serial data from products to better understand performance
+# Serial data parser application
+Parsing serial data to better understand the performance of the Unit under test (UUT)
 <!--
 *** To avoid retyping too much info. Do a search and replace for the following:
 *** github_username, repo_name, twitter_handle, email, project_title, project_description
@@ -19,7 +19,6 @@ Parsing and Analyzing serial data from products to better understand performance
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 [![LinkedIn][linkedin-shield]][linkedin-url]
@@ -180,16 +179,14 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-shield]: https://img.shields.io/github/contributors/vikramsesh/Serial-output-data-parser?color=%230093FF
 [contributors-url]: https://github.com/vikramsesh/Serial-output-data-parser/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/github_username/repo.svg?style=for-the-badge
+[forks-shield]: https://img.shields.io/github/forks/vikramsesh/Serial-output-data-parser
 [forks-url]: https://github.com/vikramsesh/Serial-output-data-parser/network/members
-[stars-shield]: https://img.shields.io/github/stars/github_username/repo.svg?style=for-the-badge
-[stars-url]: https://github.com/vikramsesh/Serial-output-data-parser/stargazers
-[issues-shield]: https://img.shields.io/github/issues/github_username/repo.svg?style=for-the-badge
+[issues-shield]: https://img.shields.io/github/issues/vikramsesh/Serial-output-data-parser
 [issues-url]: https://github.com/github_username/repo/issues
-[license-shield]: https://img.shields.io/github/license/github_username/repo.svg?style=for-the-badge
-[license-url]: https://github.com/vikramsesh/Serial-output-data-parser/issues
+[license-shield]: https://img.shields.io/github/license/vikramsesh/Serial-output-data-parser
+[license-url]: https://github.com/vikramsesh/Serial-output-data-parser/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://www.linkedin.com/in/vikramseshadri/
 [linkedin-url2]: https://www.linkedin.com/in/kenny-lam-8672141b2/
