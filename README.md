@@ -22,8 +22,8 @@ Parsing and Analyzing serial data from products to better understand performance
 [![Stargazers][stars-shield]][stars-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![Vikram][linkedin-shield]][linkedin-url]
-[![Kenny][linkedin-shield]][linkedin-url2]
+[![LinkedIn][linkedin-shield]][linkedin-url]
+[![LinkedIn][linkedin-shield]][linkedin-url2]
 
 <!-- PROJECT LOGO -->
 <br />
