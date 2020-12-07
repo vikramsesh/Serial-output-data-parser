@@ -17,11 +17,19 @@ import pandas as pd
 from PyQt5 import QtWidgets, QtCore, QtGui
 from PyQt5.QtCore import Qt, QObject, pyqtSignal
 from PyQt5.QtWidgets import QMessageBox
+from PyQt5.QtGui import *
 
 # FILES
 import Parser_UI
 import CFP_P2_parse
 import OL600_BDP_parse
+
+# Fonts
+minifont = QFont("Calibri", 9, QFont.Normal)
+textfont = QFont("Calibri", 11, QFont.Normal)
+headerfont = QFont("Calibri", 12, QFont.Medium)
+buttonfont = QFont("Calibri", 12, QFont.Black)
+
 
 class WorkerSignals(QObject):
     result = pyqtSignal(object)
@@ -41,6 +49,7 @@ class Worker(QtCore.QRunnable):
 
 
 class MainWindow(QtWidgets.QMainWindow):
+
     def __init__(self):
         self.threadpool = QtCore.QThreadPool()
         self.do_init = QtCore.QEvent.registerEventType()
@@ -58,9 +67,9 @@ class MainWindow(QtWidgets.QMainWindow):
         # Parse button and shortcut
         parse_action = QtWidgets.QAction('Parse', self)
         parse_action.setShortcuts(['Return'])
-        parse_action.triggered.connect(self.parse)
+        parse_action.triggered.connect(self.parsefn)
         self.addAction(parse_action)
-        self.ui.PB_Parse.clicked.connect(self.parse)
+        self.ui.PB_Parse.clicked.connect(self.parsefn)
 
         self.ui.PB_Clear.clicked.connect(self.clearText)
         self.ui.PB_File.clicked.connect(self.addFiles)
@@ -71,29 +80,18 @@ class MainWindow(QtWidgets.QMainWindow):
         self.graphWindows = []
 
     def clearText(self):
+
         self.ui.Text_drop.links = set()
         self.ui.Text_drop.clear()
         self.ui.Text_drop.addItem(QtWidgets.QListWidgetItem())
         self.ui.Text_drop.item(0).setText("Drop Files Here:")
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.ui.Text_drop.item(0).setFont(font)
+        self.ui.Text_drop.item(0).setFont(headerfont)
 
         self.ui.Text_status.clear()
         self.ui.Text_status.addItem(QtWidgets.QListWidgetItem())
         self.ui.Text_status.item(0).setText("Status:")
-        self.ui.Text_status.item(0).setFont(font)
+        self.ui.Text_status.item(0).setFont(headerfont)
         self.ui.PB_Parse.setEnabled(True)
-        self.ui.PB_Parse.setStyleSheet("background-color: #673AB7;"
-                                       "border-style:outset;"
-                                       "color: #D9D9D9;"
-                                       "border-radius:10px;"
-                                       "height:30px;"
-                                       "padding-top: 10px;"
-                                       "padding-bottom: 10px;"
-                                       "padding-left: 10px;"
-                                       "padding-right: 10px;"
-                                       )
 
     def noFilesAdded(self):
         error = QMessageBox()
@@ -110,23 +108,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
                 self.ui.Text_drop.addItem(file)
                 self.ui.Text_drop.links.add(str(file))
+                self.ui.Text_drop.setFont(textfont)
 
     def notifications(self, unformatted_files):
         self.ui.CB_SKUSelect.setEnabled(True)
         self.ui.PB_Parse.setEnabled(True)
-        self.ui.PB_Parse.setStyleSheet("background-color: #673AB7;"
-                                    "border-style:outset;"
-                                    "color: #D9D9D9;"
-                                    "border-radius:10px;"
-                                    "height:30px;"
-                                    "padding-top: 10px;"
-                                    "padding-bottom: 10px;"
-                                    "padding-left: 10px;"
-                                    "padding-right: 10px;"
-                                    )
-        self.fileStatus(unformatted_files)
         self.graphs()
-    
+        self.fileStatus(unformatted_files)
+        
     def checkboxes(self):
         checkboxes = set()
         for i in range(self.ui.listWidget.count()):
@@ -136,23 +125,21 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def graphs(self):
         for path in self.ui.Text_drop.links:
-            path = os.path.splitext(path)[0]+'.xlsx'
+            path = os.path.splitext(path)[0] + '.xlsx'
             data = pd.read_excel(path)
             if self.ui.CB_SKUSelect.current == "OLxxx":
                 checkboxes = self.checkboxes()
-                graphWindow = OL600_BDP_parse.GraphWindow(data, path, checkboxes) 
+                graphWindow = OL600_BDP_parse.GraphWindow(data, path, checkboxes)
             else:
                 graphWindow = CFP_P2_parse.GraphWindow(data, path)
-            
+
             self.graphWindows.append(graphWindow)
             graphWindow.show()
 
     def fileStatus(self, unformatted_files):
         for file in self.ui.Text_drop.links:
             item = QtWidgets.QListWidgetItem()
-            font = QtGui.QFont()
-            font.setPointSize(10)
-            item.setFont(font)
+            item.setFont(textfont)
             if file not in unformatted_files:
                 item.setText(str(file.split('/')[-1]) + ' - Complete')
                 item.setForeground(Qt.green)
@@ -161,7 +148,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 item.setText(str(file.split('/')[-1]) + ' - Error')
                 item.setForeground(Qt.red)
                 self.ui.Text_status.addItem(item)
-                
+
     def comboboxChanged(self, value):
         self.ui.CB_SKUSelect.previous = self.ui.CB_SKUSelect.current
         self.ui.CB_SKUSelect.current = value
@@ -173,18 +160,17 @@ class MainWindow(QtWidgets.QMainWindow):
             for i in range(1, self.ui.listWidget.count()):
                 self.ui.listWidget.item(i).setHidden(False)
 
-    def parse(self):
+    def parsefn(self):
         selected_parser = self.ui.CB_SKUSelect.currentText()
         if self.ui.Text_drop.count() > 1:
             self.ui.PB_Parse.setEnabled(False)
             self.ui.CB_SKUSelect.setEnabled(False)
-            self.ui.PB_Parse.setStyleSheet("background-color: rgba(55,0,179,128);"
-                                           "border-style:outset;"
-                                           "color: #FFFFFF;"
-                                           "border-radius:5px;"
-                                           "padding:10px;")
+
         else:
-            self.noFilesAdded()
+            QMessageBox.critical(
+                None,
+                "Error",
+                "Error! No files available to parse!")
 
         if selected_parser == 'OLxxx':
             checkboxes = self.checkboxes()
@@ -202,6 +188,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
 if __name__ == "__main__":
     import sys
+
     if sys.flags.interactive != 1:
         app = QtWidgets.QApplication(sys.argv)
         app.processEvents()
