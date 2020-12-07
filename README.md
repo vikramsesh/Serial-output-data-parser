@@ -1,21 +1,5 @@
 # Serial data parser application
-Parsing serial data to better understand the performance of the Unit under test (UUT)
-<!--
-*** To avoid retyping too much info. Do a search and replace for the following:
-*** github_username, repo_name, twitter_handle, email, Serial data parser, project_description
--->
-
-
-
-<!-- PROJECT SHIELDS -->
-<!--
-*** I'm using markdown "reference style" links for readability.
-*** Reference links are enclosed in brackets [ ] instead of parentheses ( ).
-*** See the bottom of this document for the declaration of the reference variables
-*** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
-*** https://www.markdownguide.org/basic-syntax/#reference-style-links
--->
-
+Parsing serial data to better understand the performance of the Unit under test (UUT). This application parses and graphs multiple files based on the required parameters selected by the user. This application eliminites manual parsing and graphing of multiple files.
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -88,10 +72,8 @@ Here's a blank template to get started:
 
 ### Built With
 
-* []()
-* []()
-* []()
-
+* [PyQt](https://riverbankcomputing.com/software/pyqt/intro)
+* [Python](https://www.python.org/)
 
 
 <!-- GETTING STARTED -->
@@ -102,10 +84,12 @@ To get a local copy up and running follow these simple steps.
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+* [pip](https://pip.pypa.io/en/stable/installing/)
+* [Python](https://wiki.python.org/moin/BeginnersGuide)
+* PyQt5
+   ```sh
+   pip install PyQt5
+   ```
 
 ### Installation
 
@@ -113,26 +97,14 @@ This is an example of how to list things you need to use the software and how to
    ```sh
    git clone https://github.com/vikramsesh/Serial-output-data-parser.git
    ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-
-
 
 <!-- USAGE EXAMPLES -->
+
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-See the [open issues](https://github.com/vikramsesh/Serial-output-data-parser/issues) for a list of proposed features (and known issues).
 
 
 
@@ -159,8 +131,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
-
+[Vikram Seshadri](https://www.linkedin.com/in/vikramseshadri/)
 Project Link: [https://github.com/vikramsesh/Serial-output-data-parser](https://github.com/vikramsesh/Serial-output-data-parser)
 
 
@@ -168,11 +139,10 @@ Project Link: [https://github.com/vikramsesh/Serial-output-data-parser](https://
 <!-- ACKNOWLEDGEMENTS -->
 ## Acknowledgements
 
-* []()
-* []()
-* []()
-
-
+* [Img Shields](https://shields.io)
+* [Microsoft PowerToys](https://github.com/microsoft/PowerToys)
+* [Matplotlib](https://matplotlib.org/)
+* [Choose an Open Source License](https://choosealicense.com)
 
 
 
