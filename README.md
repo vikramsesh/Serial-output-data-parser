@@ -15,7 +15,7 @@ Parsing and Analyzing serial data from products to better understand performance
 *** for contributors-url, forks-url, etc. This is an optional, concise syntax you may use.
 *** https://www.markdownguide.org/basic-syntax/#reference-style-links
 -->
-[![Contributors][contributors-shield]]: https://github.com/vikramsesh/Serial-output-data-parser/graphs/contributors
+[![Contributors][contributors-shield]][https://github.com/vikramsesh/Serial-output-data-parser/graphs/contributors]
 [![Forks][forks-shield]][https://github.com/vikramsesh/Serial-output-data-parser/network/members]
 [![Stargazers][stars-shield]][https://github.com/vikramsesh/Serial-output-data-parser/stargazers]
 [![Issues][issues-shield]][https://github.com/vikramsesh/Serial-output-data-parser/issues]
@@ -23,6 +23,12 @@ Parsing and Analyzing serial data from products to better understand performance
 [![Vikram][linkedin-shield]][https://www.linkedin.com/in/vikramseshadri/]
 [![Kenny][linkedin-shield]][https://www.linkedin.com/in/kenny-lam-8672141b2/]
 
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![MIT License][license-shield]][license-url]
+[![LinkedIn][linkedin-shield]][linkedin-url]
 
 
 <!-- PROJECT LOGO -->
@@ -180,8 +186,8 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo/graphs/contributors
+[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
+[contributors-url]: https://github.com/vikramsesh/Serial-output-data-parser/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/github_username/repo.svg?style=for-the-badge
 [forks-url]: https://github.com/github_username/repo/network/members
 [stars-shield]: https://img.shields.io/github/stars/github_username/repo.svg?style=for-the-badge
