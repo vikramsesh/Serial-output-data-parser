@@ -2,7 +2,7 @@
 Parsing serial data to better understand the performance of the Unit under test (UUT)
 <!--
 *** To avoid retyping too much info. Do a search and replace for the following:
-*** github_username, repo_name, twitter_handle, email, project_title, project_description
+*** github_username, repo_name, twitter_handle, email, Serial data parser, project_description
 -->
 
 
@@ -21,8 +21,7 @@ Parsing serial data to better understand the performance of the Unit under test 
 [![Forks][forks-shield]][forks-url]
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
-[![LinkedIn][linkedin-shield]][linkedin-url]
-[![LinkedIn][linkedin-shield]][linkedin-url2]
+
 
 <!-- PROJECT LOGO -->
 <br />
@@ -36,14 +35,14 @@ Parsing serial data to better understand the performance of the Unit under test 
   <p align="center">
     project_description
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
+    <a href="https://github.com/vikramsesh/Serial-output-data-parser"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
+    <a href="https://github.com/vikramsesh/Serial-output-data-parser">View Demo</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
+    <a href="https://github.com/vikramsesh/Serial-output-data-parser/issues">Report Bug</a>
     ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
+    <a href="https://github.com/vikramsesh/Serial-output-data-parser/issues">Request Feature</a>
   </p>
 </p>
 
@@ -84,7 +83,7 @@ Parsing serial data to better understand the performance of the Unit under test 
 
 Here's a blank template to get started:
 **To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description`
+`vikramsesh`, `Serial-output-data-parser`, `twitter_handle`, `email`, `Serial data parser`, `project_description`
 
 
 ### Built With
@@ -112,7 +111,7 @@ This is an example of how to list things you need to use the software and how to
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/github_username/repo_name.git
+   git clone https://github.com/vikramsesh/Serial-output-data-parser.git
    ```
 2. Install NPM packages
    ```sh
@@ -133,7 +132,7 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 <!-- ROADMAP -->
 ## Roadmap
 
-See the [open issues](https://github.com/github_username/repo_name/issues) for a list of proposed features (and known issues).
+See the [open issues](https://github.com/vikramsesh/Serial-output-data-parser/issues) for a list of proposed features (and known issues).
 
 
 
@@ -162,7 +161,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/vikramsesh/Serial-output-data-parser](https://github.com/vikramsesh/Serial-output-data-parser)
 
 
 
@@ -184,7 +183,7 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 [forks-shield]: https://img.shields.io/github/forks/vikramsesh/Serial-output-data-parser
 [forks-url]: https://github.com/vikramsesh/Serial-output-data-parser/network/members
 [issues-shield]: https://img.shields.io/github/issues/vikramsesh/Serial-output-data-parser
-[issues-url]: https://github.com/github_username/repo/issues
+[issues-url]: https://github.com/vikramsesh/Serial-output-data-parser/issues
 [license-shield]: https://img.shields.io/github/license/vikramsesh/Serial-output-data-parser
 [license-url]: https://github.com/vikramsesh/Serial-output-data-parser/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
