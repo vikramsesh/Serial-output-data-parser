@@ -219,8 +219,6 @@ class Ui_MainWindow(object):
                                         "QComboBox::down-arrow"
                                         "{"
                                         "image: url(icon/drop-down.png);"
-                                        "image-width:5px;"
-                                        "image-height:200px;"
                                         "border : 0px solid;"
                                         "border-radius:0px;"
                                         "border-color: #1E1E1E;"
