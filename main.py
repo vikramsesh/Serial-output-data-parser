@@ -12,6 +12,7 @@ import os
 from easygui import fileopenbox
 import re
 import pandas as pd
+import xlrd
 
 # GUI
 from PyQt5 import QtWidgets, QtCore, QtGui
