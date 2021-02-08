@@ -24,6 +24,7 @@ from PyQt5.QtGui import *
 import Parser_UI
 import CFP_P2_parse
 import OL600_BDP_parse
+import CP300_parse
 
 # Fonts
 minifont = QFont("Calibri", 9, QFont.Normal)
@@ -185,6 +186,12 @@ class MainWindow(QtWidgets.QMainWindow):
             CFP_worker = Worker(CFP.parse, self.ui.Text_drop.links)
             CFP_worker.signals.result.connect(self.notifications)
             self.threadpool.start(CFP_worker)
+
+        elif selected_parser == 'CP300':
+            CP300 = CP300_parse.CP300()
+            CP_worker = Worker(CP300.parse, self.ui.Text_drop.links)
+            CP_worker.signals.result.connect(self.notifications)
+            self.threadpool.start(CP_worker)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,5 @@
 # Serial data parser application
-Parsing serial data to better understand the performance of the Unit under test (UUT). This application parses and graphs -- internally within an excel file and externally within the application -- multiple files based on the required parameters selected by the user. This application eliminites manual parsing and graphing of multiple files.
+Parsing serial data to better understand the performance of the Unit under test (UUT). This application parses and graphs -- internally within an excel file and externally within the application -- multiple files based on the required parameters selected by the user. Currently, this applications parses seial data from OL and CFP products, however, it will be updated in the near future to work in conjunction with other units. This application eliminites manual parsing and graphing of multiple files.
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -10,7 +10,9 @@ Parsing serial data to better understand the performance of the Unit under test 
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <img src="https://github.com/vikramsesh/Serial-output-data-parser/blob/main/GUI.jpg" width="300" height="300">
+  <a href="https://github.com/vikramsesh/Serial-output-data-parser">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
   <h3 align="center">Serial Data Parser Application</h3>
 
