@@ -58,6 +58,8 @@ class MainWindow(QtWidgets.QMainWindow):
         QtWidgets.QMainWindow.__init__(self)
         super(MainWindow, self).__init__()
         self.ui = Parser_UI.Ui_MainWindow().setupUi(self)
+        scriptDir = os.path.dirname(os.path.realpath(__file__))
+        self.setWindowIcon(QtGui.QIcon(scriptDir + '\icon\icon1.ico'))
 
         # Quit button and shortcut
         quit_action = QtWidgets.QAction('Quit', self)

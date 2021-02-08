@@ -100,7 +100,10 @@ class OL:
                         if col < 5:
                             convert_cell = int(cell[col][5:], 16) / 10
                         elif 5 <= col < 8:
-                            convert_cell = int(cell[col][4:])
+                            if cell[col][:] == "None":
+                                convert_cell = cell[col][:]
+                            else:
+                                convert_cell = int(cell[col][4:])
                         elif col == 8:
                             convert_cell = ''
 
@@ -262,11 +265,11 @@ class GraphWindow(QtWidgets.QWidget):
 
         try:
             time = data['Time (sec.)'][1:]
-            product_current = data['Product Current'][1:]
-            af_ntc = data['AF NTC'][1:]
-            pc_ntc = data['PC NTC'][1:]
-            probe1_ntc = data['Probe1 NTC'][1:]
-            probe2_ntc = data['Probe2 NTC'][1:]
+            product_current = data['Product Current (A)'][1:]
+            af_ntc = data['AF NTC (degC)'][1:]
+            pc_ntc = data['PC NTC (degC)'][1:]
+            probe1_ntc = data['Probe1 NTC (degC)'][1:]
+            probe2_ntc = data['Probe2 NTC (degC)'][1:]
             high_pressure = data['High Pressure'][1:]
             low_pressure = data['Low Pressure'][1:]
             solenoid_status = data['Solenoid Status'][1:]
@@ -319,7 +322,7 @@ class GraphWindow(QtWidgets.QWidget):
             line7, = secax.plot(time, low_pressure, label='Low Prs Switch')
             lines.append(line7)
         if 'Solenoid Status (KV)' in checkboxes:
-            line6, = secax.plot(time, solenoid_status, label='Solenoid Status')
+            line8, = secax.plot(time, solenoid_status, label='Solenoid Status')
             lines.append(line8)
 
         return plot1, lines
