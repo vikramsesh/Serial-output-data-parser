@@ -97,15 +97,20 @@ class OL:
                 for col in range(0, len(cell)):
                     try:
                         worksheet.write(row + 1, col + len(self.HEADERS) + 1, cell[col], cell_format)
+                        print(cell,col)
                         if col < 5:
                             convert_cell = int(cell[col][5:], 16) / 10
-                        elif 5 <= col < 8:
+                        elif 5 <= col < 7:
                             if cell[col][:] == "None":
                                 convert_cell = cell[col][:]
                             else:
                                 convert_cell = int(cell[col][4:])
-                        elif col == 8:
-                            convert_cell = ''
+
+                        elif col == 7:
+                            if cell[col][:] == "None":
+                                convert_cell = cell[col][:]
+                            else:
+                                convert_cell = int(cell[col][3:])
 
                         # match SW version BDP
                         x = re.match(r'(\$WZ)(..)(..)(..)(\w+........)', cell[col])
