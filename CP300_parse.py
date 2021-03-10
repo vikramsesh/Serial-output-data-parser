@@ -53,7 +53,7 @@ class CP300:
             except:
                 continue
 
-            entries = data.split('\n')
+            entries = data.split('C31002')
             entries = entries[2:-1]
 
             # Add formatting to highlight cells.

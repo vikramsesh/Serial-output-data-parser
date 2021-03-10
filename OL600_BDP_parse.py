@@ -14,7 +14,7 @@ class OL:
     def __init__(self):
         self.HEADERS = ['Time (sec.)', 'Product Current (A)', 'AF NTC (degC)', 'PC NTC (degC)', 'Probe1 NTC (degC)',
                         'Probe2 NTC (degC)', 'High Pressure', 'Low Pressure', 'Solenoid Status', 'V',
-                        'SW version (Release.Version.Revision)', 'Build date']
+                        'Power SW version', 'Build date', 'UI SW version']
 
     def parse(self, allfiles, checkboxes):
         global convert_cell
@@ -28,17 +28,18 @@ class OL:
             f = open(myfile, encoding="utf8", errors="ignore")
             data = f.read()
 
-            pattern = r'(\?KC1\n)'
+            pattern = r'(\?KH1\n)'
             pattern1 = r'(\n\[[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):[0-5][0-9]:[' \
                        r'0-5][0-9].' r'[0-9]{3}\] )'
-            pattern2 = r'(\n\?KN2\n)'
-            pattern3 = r'(\n\?KN3\n)'
-            pattern4 = r'(\n\?KN4\n)'
-            pattern5 = r'(\n\?KN5\n)'
+            pattern2 = r'(\n\?KN1\n)'
+            pattern3 = r'(\n\?KN2\n)'
+            pattern4 = r'(\n\?KN3\n)'
+            pattern5 = r'(\n\?KN4\n)'
             pattern6 = r'(\n\?SW2\n)'
             pattern7 = r'(\n\?SW1\n)'
             pattern8 = r'(\n\?KV\n)'
             pattern9 = r'(\n\?WZ\n)'
+            pattern10 = r'(\n\?WU\n)'
 
             try:
                 data = re.sub(pattern, '', data)
@@ -51,6 +52,7 @@ class OL:
                 data = re.sub(pattern7, ',', data)
                 data = re.sub(pattern8, ',', data)
                 data = re.sub(pattern9, ',', data)
+                data = re.sub(pattern10, ',', data)
 
             except Exception as e:
                 print("Exception is :" + str(e))
@@ -75,11 +77,6 @@ class OL:
                         r = r[2] + ' ' + r[3] + ' ' + r[4] + ',' + r[0] + ' ' + r[1]
                         data[row] = r
 
-            # for myfile in allfiles:
-            #     workbook = xlsxwriter.Workbook(filename)
-            #     worksheet = workbook.add_worksheet('Data')
-            #     worksheet.freeze_panes(1, 0)
-
             header_format = workbook.add_format()
             header_format.set_align('center')
             header_format.set_bold()
@@ -97,7 +94,7 @@ class OL:
                 for col in range(0, len(cell)):
                     try:
                         worksheet.write(row + 1, col + len(self.HEADERS) + 1, cell[col], cell_format)
-                        print(cell,col)
+                        print(cell, col)
                         if col < 5:
                             convert_cell = int(cell[col][5:], 16) / 10
                         elif 5 <= col < 7:
@@ -114,12 +111,18 @@ class OL:
 
                         # match SW version BDP
                         x = re.match(r'(\$WZ)(..)(..)(..)(\w+........)', cell[col])
-
+                        y = re.match(r'(\$WU)(.....--.....)', cell[col])
                         if x:
-                            SW_version = x.group(2) + '.' + x.group(3) + '.' + x.group(4)
-                            worksheet.write(row + 1, col + 2, SW_version, cell_format)
+                            Power_SW_version = x.group(2) + '.' + x.group(3) + '.' + x.group(4)
+                            worksheet.write(row + 1, col + 2, Power_SW_version, cell_format)
                             worksheet.write(row + 1, col + 3, x.group(5), cell_format)
 
+                        else:
+                            pass
+
+                        if y:
+                            UI_SW_version = y.group(2)
+                            worksheet.write(row + 1, col + 3, UI_SW_version, cell_format)
                         else:
                             pass
 
@@ -158,32 +161,32 @@ class OL:
         try:
             chart = workbook.add_chart({'type': 'line'})
             chart.set_title({'name': 'Graph'})
-            if 'Product Current (KC1)' in checkboxes:
+            if 'Product Current (KH1)' in checkboxes:
                 chart.add_series({
                     'name': 'Product Current',
                     'categories': ['Data', 1, 0, finalRow, 0],
                     'values': ['Data', 1, 1, finalRow, 1],
                     'y2_axis': 1,
                 })
-            if 'AF NTC (KN2)' in checkboxes:
+            if 'AF NTC (KN1)' in checkboxes:
                 chart.add_series({
                     'name': 'AF NTC',
                     'categories': ['Data', 1, 0, finalRow, 0],
                     'values': ['Data', 1, 2, finalRow, 2],
                 })
-            if 'PC NTC (KN3)' in checkboxes:
+            if 'PC NTC (KN2)' in checkboxes:
                 chart.add_series({
                     'name': 'PC NTC',
                     'categories': ['Data', 1, 0, finalRow, 0],
                     'values': ['Data', 1, 3, finalRow, 3],
                 })
-            if 'Probe1 NTC (KN4)' in checkboxes:
+            if 'Probe1 NTC (KN3)' in checkboxes:
                 chart.add_series({
                     'name': 'Probe1 NTC',
                     'categories': ['Data', 1, 0, finalRow, 0],
                     'values': ['Data', 1, 4, finalRow, 4],
                 })
-            if 'Probe2 NTC (KN5)' in checkboxes:
+            if 'Probe2 NTC (KN4)' in checkboxes:
                 chart.add_series({
                     'name': 'Probe2 NTC',
                     'categories': ['Data', 1, 0, finalRow, 0],
@@ -278,8 +281,10 @@ class GraphWindow(QtWidgets.QWidget):
             high_pressure = data['High Pressure'][1:]
             low_pressure = data['Low Pressure'][1:]
             solenoid_status = data['Solenoid Status'][1:]
-            SW_version = data['SW version (Release.Version.Revision)'][1]
-            title = str(path).split('/')[-1] + ' - SWv: ' + str(SW_version)
+            Power_SW_version = data['Power SW version'][1]
+            UI_SW_version = data['UI SW version'][1]
+            title = str(path).split('/')[-1] + ' - Power SWv: ' + str(Power_SW_version) + ' UI SWv: ' + str(
+                UI_SW_version)
 
             sc.fig.suptitle(title)
             plot1 = sc.fig.add_subplot(111, xlabel='Time (s)', ylabel='Temperature (C)')
@@ -302,22 +307,22 @@ class GraphWindow(QtWidgets.QWidget):
         lines = []
 
         if 'Low Pressure Switch (SW1)' in checkboxes or 'High Pressure Switch (SW2)' in checkboxes or \
-                'Product Current (KC1)' in checkboxes or 'Solenoid Status (KV)' in checkboxes:
+                'Product Current (KH1)' in checkboxes or 'Solenoid Status (KV)' in checkboxes:
             secax = plot1.twinx()
 
-        if 'Product Current (KC1)' in checkboxes:
+        if 'Product Current (KH1)' in checkboxes:
             line1, = secax.plot(time, product_current, label='Product Current')
             lines.append(line1)
-        if 'AF NTC (KN2)' in checkboxes:
+        if 'AF NTC (KN1)' in checkboxes:
             line2, = plot1.plot(time, af_ntc, label='AF NTC')
             lines.append(line2)
-        if 'PC NTC (KN3)' in checkboxes:
+        if 'PC NTC (KN2)' in checkboxes:
             line3, = plot1.plot(time, pc_ntc, label='PC NTC')
             lines.append(line3)
-        if 'Probe1 NTC (KN4)' in checkboxes:
+        if 'Probe1 NTC (KN3)' in checkboxes:
             line4, = plot1.plot(time, probe1_ntc, label='Probe1 NTC')
             lines.append(line4)
-        if 'Probe2 NTC (KN5)' in checkboxes:
+        if 'Probe2 NTC (KN4)' in checkboxes:
             line5, = plot1.plot(time, probe2_ntc, label='Probe2 NTC')
             lines.append(line5)
         if 'High Pressure Switch (SW2)' in checkboxes:
