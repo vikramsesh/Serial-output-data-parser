@@ -11,7 +11,7 @@ Parsing serial data to better understand the performance of the Unit under test 
 <br />
 <p align="center">
   <a href="https://github.com/vikramsesh/Serial-output-data-parser">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="icon/icon1.ico" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Serial Data Parser Application</h3>
