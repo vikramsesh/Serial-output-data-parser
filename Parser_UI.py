@@ -362,7 +362,7 @@ class Ui_MainWindow(object):
 
         item = self.listWidget.item(0)
         item.setFont(headerfont)
-        item.setText("Parameters: ")
+        item.setText("Graphing Parameters: ")
         item.setFlags(Qt.NoItemFlags)
         item = self.listWidget.item(1)
         item.setText("Power Software version (WZ)")
