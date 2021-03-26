@@ -97,12 +97,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.Text_status.item(0).setFont(headerfont)
         self.ui.PB_Parse.setEnabled(True)
 
-    def noFilesAdded(self):
+    @staticmethod
+    def noFilesAdded():
         error = QMessageBox()
         error.setText("Error! No files available to parse!")
         error.setIcon(QMessageBox.Critical)
         error.exec()
-    
+
     def addFiles(self):
         files = fileopenbox(multiple=True)
         if files is not None:
