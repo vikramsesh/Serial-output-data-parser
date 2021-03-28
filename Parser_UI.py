@@ -7,6 +7,8 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
+SKU_list = ["OLxxx", "CFPxxx", "CP300"]
+
 # Styling
 section_style = (
     "background-color: #28293D;"  # Style 1
@@ -395,9 +397,8 @@ class Ui_MainWindow(object):
         self.PB_Clear.setFont(buttonfont)
         self.PB_Parse.setText(_translate("MainWindow", " Parse"))
         self.PB_Parse.setFont(buttonfont)
-        self.CB_SKUSelect.setItemText(0, _translate("MainWindow", "OLxxx"))
-        self.CB_SKUSelect.setItemText(1, _translate("MainWindow", "CFPxxx"))
-        self.CB_SKUSelect.setItemText(2, _translate("MainWindow", "CP300"))
+        for i in range(0, len(SKU_list)):
+            self.CB_SKUSelect.setItemText(i, _translate("MainWindow", SKU_list[i]))
         __sortingEnabled = self.Text_drop.isSortingEnabled()
         self.Text_drop.setSortingEnabled(False)
 
