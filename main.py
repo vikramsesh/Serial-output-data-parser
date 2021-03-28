@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-BDP Parser Application
+Serial data Parser Application
 
 Vikram Seshadri
 November 11, 2020
@@ -75,7 +75,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.addAction(parse_action)
         self.ui.PB_Parse.clicked.connect(self.parsefn)
 
-        self.ui.PB_Clear.clicked.connect(self.clearText)
+        self.ui.PB_Clear.clicked.connect(self.clear_text)
         self.ui.PB_File.clicked.connect(self.addFiles)
 
         # Combo box
@@ -83,7 +83,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.graphWindows = []
 
-    def clearText(self):
+    def clear_text(self):
 
         self.ui.Text_drop.links = set()
         self.ui.Text_drop.clear()
@@ -98,7 +98,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.PB_Parse.setEnabled(True)
 
     @staticmethod
-    def noFilesAdded():
+    def no_files_added():
         error = QMessageBox()
         error.setText("Error! No files available to parse!")
         error.setIcon(QMessageBox.Critical)
