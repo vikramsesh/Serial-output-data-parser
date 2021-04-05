@@ -15,6 +15,7 @@ class OL:
 
     def parse(self, allfiles, checkboxes):
         global convert_cell
+
         unformatted_files = set()
         for myfile in allfiles:
             filename = os.path.splitext(myfile)[0] + '.xlsx'
@@ -153,7 +154,8 @@ class OL:
         print('done parsing')
         return unformatted_files
 
-    def excelGraph(self, workbook, finalRow, checkboxes):
+    @staticmethod
+    def excelGraph(workbook, finalRow, checkboxes):
         global chart
         try:
             chart = workbook.add_chart({'type': 'line'})
@@ -298,7 +300,8 @@ class GraphWindow(QtWidgets.QWidget):
 
         return sc
 
-    def graphOLHelper(self, checkboxes, plot1, time, product_current, af_ntc, pc_ntc, probe1_ntc, probe2_ntc,
+    @staticmethod
+    def graphOLHelper(checkboxes, plot1, time, product_current, af_ntc, pc_ntc, probe1_ntc, probe2_ntc,
                       high_pressure, low_pressure, solenoid_status):
         global secax
         lines = []
