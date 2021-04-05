@@ -12,8 +12,6 @@ SKU_list = ["OLxxx", "CFPxxx", "CP300"]
 # Styling
 section_style = (
     "background-color: #28293D;"  # Style 1
-    # "background-color: #555770;"  # Style 2
-    # "background-color: #8F90A6;"  # Style 3
     "selection-background-color: #03DAC6;"
     "border-style:outset;"
     "border-radius:10px;"
@@ -305,8 +303,7 @@ class Ui_MainWindow(object):
 
         self.PB_Quit = QtWidgets.QPushButton(self.centralwidget)
         self.PB_Quit.setStyleSheet(
-            # "background-color: #D0112B;"  # style1
-            "background-color: #FF3B3B;"  # style2
+            "background-color: #FF3B3B;"  # style1
             "border-style:outset;"
             "color: #D9D9D9;"
             "height:40px;"

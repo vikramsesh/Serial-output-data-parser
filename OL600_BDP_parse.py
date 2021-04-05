@@ -11,10 +11,12 @@ class OL:
     def __init__(self):
         self.HEADERS = ['Time (sec.)', 'Product Current (A)', 'AF NTC (degC)', 'PC NTC (degC)', 'Probe1 NTC (degC)',
                         'Probe2 NTC (degC)', 'High Pressure', 'Low Pressure', 'Solenoid Status', 'V',
-                        'Power SW version', 'Build date', 'UI SW version']
+                        'Power SW version', 'Build date', 'UI SW version', 'Fan TRIAC', 'Upper Heater TRIAC', 'AF AD',
+                        'PC AD', 'Probe1 AD', ' Probe2 AD', 'Current AD']
 
     def parse(self, allfiles, checkboxes):
         global convert_cell
+
         unformatted_files = set()
         for myfile in allfiles:
             filename = os.path.splitext(myfile)[0] + '.xlsx'
@@ -37,6 +39,13 @@ class OL:
             pattern8 = r'(\n\?KV\n)'
             pattern9 = r'(\n\?WZ\n)'
             pattern10 = r'(\n\?WU\n)'
+            pattern11 = r'(\n\?KT1\n)'
+            pattern12 = r'(\n\?KT2\n)'
+            pattern13 = r'(\n\?KA1\n)'
+            pattern14 = r'(\n\?KA2\n)'
+            pattern15 = r'(\n\?KA3\n)'
+            pattern16 = r'(\n\?KA4\n)'
+            pattern17 = r'(\n\?KA5\n)'
 
             try:
                 data = re.sub(pattern, '', data)
@@ -50,6 +59,13 @@ class OL:
                 data = re.sub(pattern8, ',', data)
                 data = re.sub(pattern9, ',', data)
                 data = re.sub(pattern10, ',', data)
+                data = re.sub(pattern11, ',', data)
+                data = re.sub(pattern12, ',', data)
+                data = re.sub(pattern13, ',', data)
+                data = re.sub(pattern14, ',', data)
+                data = re.sub(pattern15, ',', data)
+                data = re.sub(pattern16, ',', data)
+                data = re.sub(pattern17, ',', data)
 
             except Exception as e:
                 print("Exception is :" + str(e))
@@ -106,6 +122,9 @@ class OL:
                             else:
                                 convert_cell = int(cell[col][3:])
 
+                        elif 10 <= col <= 16:
+                            convert_cell = int(cell[col][4:], 16)
+
                         # match SW version BDP
                         x = re.match(r'(\$WZ)(..)(..)(..)(\w+........)', cell[col])
                         y = re.match(r'(\$WU)(.....--.....)', cell[col])
@@ -128,6 +147,8 @@ class OL:
                         # Columns
                         if col < 8:
                             worksheet.write(row + 1, col + 1, convert_cell, cell_format)
+                        elif 10 <= col <= 16:
+                            worksheet.write(row + 1, col + 3, convert_cell, cell_format)
 
                     except Exception as e:
                         unformatted_files.add(myfile)
@@ -153,7 +174,8 @@ class OL:
         print('done parsing')
         return unformatted_files
 
-    def excelGraph(self, workbook, finalRow, checkboxes):
+    @staticmethod
+    def excelGraph(workbook, finalRow, checkboxes):
         global chart
         try:
             chart = workbook.add_chart({'type': 'line'})
@@ -298,7 +320,8 @@ class GraphWindow(QtWidgets.QWidget):
 
         return sc
 
-    def graphOLHelper(self, checkboxes, plot1, time, product_current, af_ntc, pc_ntc, probe1_ntc, probe2_ntc,
+    @staticmethod
+    def graphOLHelper(checkboxes, plot1, time, product_current, af_ntc, pc_ntc, probe1_ntc, probe2_ntc,
                       high_pressure, low_pressure, solenoid_status):
         global secax
         lines = []
