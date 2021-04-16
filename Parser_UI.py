@@ -7,7 +7,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
-SKU_list = ["OLxxx", "CFPxxx", "CP300"]
+SKU_list = ["OLxxx BDP", "CFPxxx_SerialStream", "CFPxxx_BDP", "CP300"]
 
 # Styling
 section_style = (
