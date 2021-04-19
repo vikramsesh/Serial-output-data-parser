@@ -7,53 +7,57 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 
-SKU_list = ["OLxxx BDP", "CFPxxx_SerialStream", "CFPxxx_BDP", "CP300"]
+# List of SKUs that can be used with the parser application
+SKU_list = ["OLxxx BDP", "CFPxxx Serial Stream", "CFPxxx BDP"]
 
-# Styling
-section_style = (
-    "background-color: #28293D;"  # Style 1
-    "selection-background-color: #03DAC6;"
-    "border-style:outset;"
-    "border-radius:10px;"
-    "border: 1px solid;"
-    "border-color: #3568D4;"
-    "color: #d9d9d9;"
-    "padding:10px;"
-)
 
-scrollbar_horizontal = (
-    "QScrollBar:horizontal"
-    "{"
-    "height:10px;"
-    "padding:0px;"
-    "border:solid;"
-    "border-radius: 5px;"
-    "background-color: solid;"
-    "border-radius:5px;"
-    "}"
-    "QScrollBar::handle:horizontal"
-    "{"
-    "background-color:#3568D4;"
-    "border-radius:0px;"
-    "height:15px"
-    "}"
-)
+# Styling class
+class Styling:
+    section_style = (
+        "background-color: #28293D;"  # Style 1
+        "selection-background-color: #03DAC6;"
+        "border-style:outset;"
+        "border-radius:10px;"
+        "border: 1px solid;"
+        "border-color: #3568D4;"
+        "color: #d9d9d9;"
+        "padding:10px;"
+    )
 
-scrollbar_vertical = (
-    "QScrollBar:vertical"
-    "{"
-    "width:10px;"
-    "padding:0px;"
-    "background-color: solid;"
-    "border-radius:5px;"
-    "}"
-    "QScrollBar::handle:vertical"
-    "{"
-    "background-color:#3568D4;"
-    "border-radius:0px;"
-    "width:15px"
-    "}"
-)
+    scrollbar_horizontal = (
+        "QScrollBar:horizontal"
+        "{"
+        "height:10px;"
+        "padding:0px;"
+        "border:solid;"
+        "border-radius: 5px;"
+        "background-color: solid;"
+        "border-radius:5px;"
+        "}"
+        "QScrollBar::handle:horizontal"
+        "{"
+        "background-color:#3568D4;"
+        "border-radius:0px;"
+        "height:15px"
+        "}"
+    )
+
+    scrollbar_vertical = (
+        "QScrollBar:vertical"
+        "{"
+        "width:10px;"
+        "padding:0px;"
+        "background-color: solid;"
+        "border-radius:5px;"
+        "}"
+        "QScrollBar::handle:vertical"
+        "{"
+        "background-color:#3568D4;"
+        "border-radius:0px;"
+        "width:15px"
+        "}"
+    )
+
 
 # Fonts
 minifont = QFont("Calibri", 9, QFont.Normal)
@@ -127,7 +131,7 @@ class Ui_MainWindow(object):
         self.gridLayout.setVerticalSpacing(10)
 
         self.listWidget = QtWidgets.QListWidget(self.centralwidget)
-        self.listWidget.setStyleSheet(section_style)
+        self.listWidget.setStyleSheet(Styling.section_style)
 
         item = QtWidgets.QListWidgetItem()
         item.setFont(textfont)
@@ -141,49 +145,61 @@ class Ui_MainWindow(object):
             )
         )
         self.listWidget.setSpacing(8)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
-        item = QtWidgets.QListWidgetItem()
-        item.setCheckState(QtCore.Qt.Checked)
-        item.setFont(textfont)
-        self.listWidget.addItem(item)
 
-        self.listWidget.horizontalScrollBar().setStyleSheet(scrollbar_horizontal)
-        self.listWidget.verticalScrollBar().setStyleSheet(scrollbar_vertical)
+        # Number of checkbox items
+        for i in range(0, 10):
+            item = QtWidgets.QListWidgetItem()
+            item.setCheckState(QtCore.Qt.Checked)
+            item.setFont(textfont)
+            self.listWidget.addItem(item)
+
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+        #
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+        #
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+        #
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+        #
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+        #
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+        #
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+        #
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+        #
+        # item = QtWidgets.QListWidgetItem()
+        # item.setCheckState(QtCore.Qt.Checked)
+        # item.setFont(textfont)
+        # self.listWidget.addItem(item)
+
+        self.listWidget.horizontalScrollBar().setStyleSheet(Styling.scrollbar_horizontal)
+        self.listWidget.verticalScrollBar().setStyleSheet(Styling.scrollbar_vertical)
 
         self.listWidget.setSizeAdjustPolicy(QtWidgets.QAbstractScrollArea.AdjustToContents)
         self.listWidget.setObjectName("listwidget")
@@ -192,7 +208,7 @@ class Ui_MainWindow(object):
 
         # Drop down combo button
         self.drop_down = QtWidgets.QListView(self.centralwidget)
-        self.drop_down.setStyleSheet(section_style)
+        self.drop_down.setStyleSheet(Styling.section_style)
         self.CB_SKUSelect = ComboBox(self.centralwidget)
         self.CB_SKUSelect.setView(self.drop_down)
 
@@ -226,9 +242,6 @@ class Ui_MainWindow(object):
                                         )
         self.CB_SKUSelect.setObjectName("CB_SKUSelect")
         self.CB_SKUSelect.setCursor(QCursor(QtCore.Qt.PointingHandCursor))
-        self.CB_SKUSelect.addItem("")
-        self.CB_SKUSelect.addItem("")
-        self.CB_SKUSelect.addItem("")
         self.CB_SKUSelect.setFixedHeight(60)
         self.gridLayout.addWidget(self.CB_SKUSelect, 1, 1, 1, 3)
 
@@ -323,24 +336,24 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.PB_Quit, 7, 6, 1, 1)
 
         self.Text_drop = ListBoxWidget(self.centralwidget)
-        self.Text_drop.setStyleSheet(section_style)
+        self.Text_drop.setStyleSheet(Styling.section_style)
 
         self.Text_drop.setObjectName("Text_drop")
-        self.Text_drop.horizontalScrollBar().setStyleSheet(scrollbar_horizontal)
-        self.Text_drop.verticalScrollBar().setStyleSheet(scrollbar_vertical)
+        self.Text_drop.horizontalScrollBar().setStyleSheet(Styling.scrollbar_horizontal)
+        self.Text_drop.verticalScrollBar().setStyleSheet(Styling.scrollbar_vertical)
 
         item = QtWidgets.QListWidgetItem()
         self.Text_drop.addItem(item)
         self.gridLayout.addWidget(self.Text_drop, 2, 1, 2, 3)
 
         self.Text_status = QtWidgets.QListWidget(self.centralwidget)
-        self.Text_status.setStyleSheet(section_style)
+        self.Text_status.setStyleSheet(Styling.section_style)
         self.Text_status.setObjectName("Text_status")
         item = QtWidgets.QListWidgetItem()
         self.Text_status.addItem(item)
         self.gridLayout.addWidget(self.Text_status, 4, 1, 2, 3)
-        self.Text_status.horizontalScrollBar().setStyleSheet(scrollbar_horizontal)
-        self.Text_status.verticalScrollBar().setStyleSheet(scrollbar_vertical)
+        self.Text_status.horizontalScrollBar().setStyleSheet(Styling.scrollbar_horizontal)
+        self.Text_status.verticalScrollBar().setStyleSheet(Styling.scrollbar_vertical)
 
         self.info_label = QtWidgets.QLabel(self.centralwidget)
         self.info_label.setText("© Ninja Testing")
@@ -395,6 +408,7 @@ class Ui_MainWindow(object):
         self.PB_Parse.setText(_translate("MainWindow", " Parse"))
         self.PB_Parse.setFont(buttonfont)
         for i in range(0, len(SKU_list)):
+            self.CB_SKUSelect.addItem("")
             self.CB_SKUSelect.setItemText(i, _translate("MainWindow", SKU_list[i]))
         __sortingEnabled = self.Text_drop.isSortingEnabled()
         self.Text_drop.setSortingEnabled(False)

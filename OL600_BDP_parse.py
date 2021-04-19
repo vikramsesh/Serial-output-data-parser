@@ -1,10 +1,13 @@
 import os
-import re
-
+import sys
 import xlsxwriter
-from PyQt5 import QtWidgets, QtCore
+import re
+import glob
+
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg, NavigationToolbar2QT
 from matplotlib.figure import Figure
+
+from PyQt5 import QtWidgets, QtCore, QtGui
 
 
 class OL:
