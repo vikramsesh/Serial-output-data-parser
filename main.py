@@ -22,9 +22,9 @@ from PyQt5.QtGui import *
 
 # FILES
 import Parser_UI
-import CFP_P2_parse
 import OL600_BDP_parse
-import CP300_parse
+import CFP_SerialStream_parse
+import CFP_BDP_parse
 
 # Fonts
 minifont = QFont("Calibri", 9, QFont.Normal)
@@ -120,7 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.PB_Parse.setEnabled(True)
         self.graphs()
         self.fileStatus(unformatted_files)
-        
+
     def checkboxes(self):
         checkboxes = set()
         for i in range(self.ui.listWidget.count()):
@@ -132,11 +132,11 @@ class MainWindow(QtWidgets.QMainWindow):
         for path in self.ui.Text_drop.links:
             path = os.path.splitext(path)[0] + '.xlsx'
             data = pd.read_excel(path)
-            if self.ui.CB_SKUSelect.current == "OLxxx":
+            if self.ui.CB_SKUSelect.current == "OLxxx BDP":
                 checkboxes = self.checkboxes()
                 graphWindow = OL600_BDP_parse.GraphWindow(data, path, checkboxes)
             else:
-                graphWindow = CFP_P2_parse.GraphWindow(data, path)
+                graphWindow = CFP_SerialStream_parse.GraphWindow(data, path)
 
             self.graphWindows.append(graphWindow)
             graphWindow.show()
@@ -154,16 +154,13 @@ class MainWindow(QtWidgets.QMainWindow):
                 item.setForeground(Qt.red)
                 self.ui.Text_status.addItem(item)
 
-    def comboboxChanged(self, value):
-        self.ui.CB_SKUSelect.previous = self.ui.CB_SKUSelect.current
-        self.ui.CB_SKUSelect.current = value
-        if (self.ui.CB_SKUSelect.previous == "OLxxx") and (
-                self.ui.CB_SKUSelect.current == "CFPxxx"):
-            for i in range(1, self.ui.listWidget.count()):
-                self.ui.listWidget.item(i).setHidden(True)
-        else:
+    def comboboxChanged(self):
+        if self.ui.CB_SKUSelect.currentText() == "OLxxx BDP":
             for i in range(1, self.ui.listWidget.count()):
                 self.ui.listWidget.item(i).setHidden(False)
+        else:
+            for i in range(1, self.ui.listWidget.count()):
+                self.ui.listWidget.item(i).setHidden(True)
 
     def parsefn(self):
         selected_parser = self.ui.CB_SKUSelect.currentText()
@@ -177,24 +174,24 @@ class MainWindow(QtWidgets.QMainWindow):
                 "Error",
                 "Error! No files available to parse!")
 
-        if selected_parser == 'OLxxx':
+        if selected_parser == "OLxxx BDP":
             checkboxes = self.checkboxes()
             OL = OL600_BDP_parse.OL()
             OL_worker = Worker(OL.parse, self.ui.Text_drop.links, checkboxes)
             OL_worker.signals.result.connect(self.notifications)
             self.threadpool.start(OL_worker)
 
-        elif selected_parser == 'CFPxxx':
-            CFP = CFP_P2_parse.CFP()
+        elif selected_parser == "CFPxxx Serial Stream":
+            CFP = CFP_SerialStream_parse.CFP()
             CFP_worker = Worker(CFP.parse, self.ui.Text_drop.links)
             CFP_worker.signals.result.connect(self.notifications)
             self.threadpool.start(CFP_worker)
 
-        elif selected_parser == 'CP300':
-            CP300 = CP300_parse.CP300()
-            CP_worker = Worker(CP300.parse, self.ui.Text_drop.links)
-            CP_worker.signals.result.connect(self.notifications)
-            self.threadpool.start(CP_worker)
+        # elif selected_parser == 'CFPxxx BDP':
+        #     CP300 = CP300_parse.CP300()
+        #     CP_worker = Worker(CP300.parse, self.ui.Text_drop.links)
+        #     CP_worker.signals.result.connect(self.notifications)
+        #     self.threadpool.start(CP_worker)
 
 
 if __name__ == "__main__":
